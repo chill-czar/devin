@@ -21,9 +21,12 @@ spec:
         - name: Phase
           type: string
           jsonPath: .status.phase
-        - name: Image
+        - name: Runtime
           type: string
-          jsonPath: .spec.image
+          jsonPath: .spec.runtime
+        - name: Host
+          type: string
+          jsonPath: .status.host
         - name: Age
           type: date
           jsonPath: .metadata.creationTimestamp
@@ -33,9 +36,11 @@ spec:
           properties:
             spec:
               type: object
-              required: [cpu, memory, image]
+              required: [runtime, cpu, memory]
               properties:
                 taskId:
+                  type: string
+                runtime:
                   type: string
                 cpu:
                   type: integer
@@ -44,14 +49,19 @@ spec:
                   type: string
                 image:
                   type: string
+                  description: Deprecated; use runtime to select a snapshot-backed image.
             status:
               type: object
               properties:
                 phase:
                   type: string
-                podName:
+                vmId:
                   type: string
-                pvcName:
+                host:
+                  type: string
+                runtimeURL:
+                  type: string
+                machineName:
                   type: string
                 message:
                   type: string
