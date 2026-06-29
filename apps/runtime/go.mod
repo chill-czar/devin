@@ -2,4 +2,4 @@ module github.com/chill-czar/devin/apps/runtime
 
 go 1.22.0
 
-require golang.org/x/sys v0.46.0
+require golang.org/x/sys v0.28.0
