@@ -10,9 +10,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/chill-czar/devin/apps/firecracker-host/internal/config"
-	"github.com/chill-czar/devin/apps/firecracker-host/internal/pool"
-	"github.com/chill-czar/devin/apps/firecracker-host/internal/server"
+	"github.com/chill-czar/devin/apps/firecracker/internal/config"
+	"github.com/chill-czar/devin/apps/firecracker/internal/pool"
+	"github.com/chill-czar/devin/apps/firecracker/internal/server"
 )
 
 func main() {
@@ -35,14 +35,14 @@ func main() {
 	}
 
 	go func() {
-		slog.Info("firecracker-host listening",
+		slog.Info("firecracker listening",
 			"addr", srv.Addr,
 			"dryRun", cfg.DryRun,
 			"host", cfg.HostName,
 			"snapshotDir", cfg.SnapshotDir,
 		)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			slog.Error("firecracker-host failed", "error", err)
+			slog.Error("firecracker failed", "error", err)
 			os.Exit(1)
 		}
 	}()
@@ -52,7 +52,7 @@ func main() {
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(shutdownCtx); err != nil {
-		slog.Error("firecracker-host shutdown failed", "error", err)
+		slog.Error("firecracker shutdown failed", "error", err)
 		os.Exit(1)
 	}
 }

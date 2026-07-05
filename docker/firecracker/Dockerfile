@@ -2,10 +2,10 @@ FROM golang:1.23-bookworm AS build
 RUN apt-get update && apt-get install -y --no-install-recommends git \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /src
-COPY apps/firecracker-host/go.mod apps/firecracker-host/go.sum ./
+COPY apps/firecracker/go.mod apps/firecracker/go.sum ./
 RUN go mod download
-COPY apps/firecracker-host/ ./
-RUN CGO_ENABLED=0 go build -o /out/firecracker-host ./cmd/host
+COPY apps/firecracker/ ./
+RUN CGO_ENABLED=0 go build -o /out/firecracker ./cmd/firecracker
 
 ARG TC_REDIRECT_TAP_REF=34bf829e9a5c99df47318c7feeb637576df239fc
 RUN git clone https://github.com/awslabs/tc-redirect-tap.git /tmp/tc-redirect-tap \
@@ -19,7 +19,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl iproute2 iptables \
     && rm -rf /var/lib/apt/lists/*
 
-# Firecracker VMM + CNI plugins (install on host image build or mount from host)
 ARG FIRECRACKER_VERSION=1.8.0
 RUN curl -fsSL "https://github.com/firecracker-microvm/firecracker/releases/download/v${FIRECRACKER_VERSION}/firecracker-v${FIRECRACKER_VERSION}-x86_64.tgz" \
     | tar -xzf - -C /tmp \
@@ -37,9 +36,9 @@ RUN chmod 755 /opt/cni/bin/tc-redirect-tap
 
 RUN mkdir -p /etc/cni/conf.d
 
-COPY apps/firecracker-host/config/cni/fcnet.conflist /etc/cni/conf.d/
-COPY apps/firecracker-host/config/cni/resolv.conf /etc/cni/resolv.conf
-COPY --from=build /out/firecracker-host /usr/bin/firecracker-host
+COPY apps/firecracker/config/cni/fcnet.conflist /etc/cni/conf.d/
+COPY apps/firecracker/config/cni/resolv.conf /etc/cni/resolv.conf
+COPY --from=build /out/firecracker /usr/bin/firecracker-daemon
 
 ENV FIRECRACKER_BIN=/usr/bin/firecracker \
     FIRECRACKER_CNI_CONF_DIR=/etc/cni/conf.d \
@@ -52,4 +51,4 @@ ENV FIRECRACKER_BIN=/usr/bin/firecracker \
     FIRECRACKER_HOST_PORT=9092
 
 EXPOSE 9092
-ENTRYPOINT ["/usr/bin/firecracker-host"]
+ENTRYPOINT ["/usr/bin/firecracker-daemon"]

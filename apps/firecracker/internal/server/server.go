@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/chill-czar/devin/apps/firecracker-host/internal/pool"
+	"github.com/chill-czar/devin/apps/firecracker/internal/pool"
 )
 
 type Server struct {

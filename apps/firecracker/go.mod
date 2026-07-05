@@ -1,4 +1,4 @@
-module github.com/chill-czar/devin/apps/firecracker-host
+module github.com/chill-czar/devin/apps/firecracker
 
 go 1.22.0
 
