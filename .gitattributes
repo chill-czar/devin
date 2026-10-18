@@ -1,0 +1,4 @@
+# Prioritize core Go backend, Firecracker microVMs, and runtime infrastructure
+apps/web/** linguist-vendored
+packages/scheduler/** linguist-vendored
+tests/** linguist-vendored
