@@ -33,6 +33,7 @@ apps/orchestrator/orchestrator
 apps/runtime/runtime
 apps/firecracker/firecracker
 apps/firecracker/tc-redirect-tap
+apps/firecracker/snapshot-cni
 
 
 # Debug
