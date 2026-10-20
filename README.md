@@ -48,7 +48,7 @@ flowchart TD
     ToolGW -->|Execute| FCManager
     FCManager -->|Unix Socket API| KVM
     KVM -->|Boot Hardware VM| MicroVM
-    FCManager <-->|AF_VSOCK (Port 5000)| Boxd
+    FCManager <-->|"AF_VSOCK (Port 5000)"| Boxd
     Boxd -->|Exec / Edit / Stream| MicroVM
     Server <-->|WebSocket VNC Bridge| User
 ```
