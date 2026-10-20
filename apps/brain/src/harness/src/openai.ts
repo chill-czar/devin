@@ -2,8 +2,36 @@ import OpenAI from "openai";
 import { OPENAI_TOOLS } from "./tools.js";
 import type { ChatMessage, ToolCall } from "./types.js";
 
+const GEMINI_OPENAI_BASE_URL =
+  "https://generativelanguage.googleapis.com/v1beta/openai/";
+
+export function isGeminiActive(): boolean {
+  return Boolean(
+    process.env.GEMINI_API_KEY?.trim() && !process.env.OPENAI_API_KEY?.trim(),
+  );
+}
+
 export function resolveOpenAIModel(override?: string): string {
-  return override?.trim() || process.env.OPENAI_MODEL?.trim() || "gpt-4o-mini";
+  if (override?.trim()) {
+    const o = override.trim();
+    if (isGeminiActive() && !o.startsWith("gemini-")) {
+      return process.env.GEMINI_MODEL?.trim() || "gemini-3.8-flash";
+    }
+    return o;
+  }
+  if (isGeminiActive()) {
+    if (process.env.GEMINI_MODEL?.trim()) {
+      return process.env.GEMINI_MODEL.trim();
+    }
+    if (process.env.OPENAI_MODEL?.trim()?.startsWith("gemini-")) {
+      return process.env.OPENAI_MODEL.trim();
+    }
+    return "gemini-3.8-flash";
+  }
+  if (process.env.OPENAI_MODEL?.trim()) {
+    return process.env.OPENAI_MODEL.trim();
+  }
+  return "gpt-4o-mini";
 }
 
 export function resolveSummaryModel(): string {
@@ -11,16 +39,36 @@ export function resolveSummaryModel(): string {
 }
 
 export function createOpenAIClient(apiKey?: string): OpenAI {
-  const key = apiKey?.trim() || process.env.OPENAI_API_KEY?.trim();
+  const geminiKey = process.env.GEMINI_API_KEY?.trim();
+  const explicitKey = apiKey?.trim();
+  const openAiKey = process.env.OPENAI_API_KEY?.trim();
+
+  const key = explicitKey || openAiKey || geminiKey;
   if (!key) {
-    throw new Error("OPENAI_API_KEY is required for the Brain harness");
+    throw new Error(
+      "OPENAI_API_KEY or GEMINI_API_KEY is required for the Brain harness",
+    );
   }
-  return new OpenAI({ apiKey: key });
+
+  const customBaseUrl =
+    process.env.OPENAI_BASE_URL?.trim() || process.env.GEMINI_BASE_URL?.trim();
+
+  const isGemini =
+    Boolean(geminiKey && (!openAiKey || key === geminiKey)) && !customBaseUrl;
+
+  const baseURL =
+    customBaseUrl || (isGemini ? GEMINI_OPENAI_BASE_URL : undefined);
+
+  return new OpenAI({
+    apiKey: key,
+    baseURL: baseURL || undefined,
+  });
 }
 
 export type ModelTurn = {
   content: string | null;
   toolCalls: ToolCall[];
+  extraContent?: unknown;
 };
 
 export async function runModelTurn(
@@ -47,11 +95,15 @@ export async function runModelTurn(
       name: call.function.name,
       arguments: call.function.arguments ?? "{}",
     },
+    ...((call as any).extra_content
+      ? { extra_content: (call as any).extra_content }
+      : {}),
   }));
 
   return {
     content: choice.content ?? null,
     toolCalls,
+    extraContent: (choice as any).extra_content,
   };
 }
 

@@ -157,8 +157,8 @@ export function GitHubPermissionsPanel({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-6 text-gray-500">
-        <Loader2 className="size-4 animate-spin" />
+      <div className="text-muted-foreground flex items-center justify-center py-6">
+        <Loader2 className="text-primary size-4 animate-spin" />
       </div>
     );
   }
@@ -167,17 +167,17 @@ export function GitHubPermissionsPanel({
     return (
       <div
         className={cn(
-          "rounded-xl border border-[#2a2a2a] bg-[#141414]",
+          "border-border bg-card text-card-foreground rounded-none border shadow-xs",
           compact ? "p-4" : "p-5",
         )}
       >
         <div className="flex items-start gap-3">
-          <Shield className="mt-0.5 size-5 shrink-0 text-[#4a90e2]" />
+          <Shield className="text-primary mt-0.5 size-5 shrink-0" />
           <div className="min-w-0 flex-1">
-            <h3 className="text-[14px] font-medium text-white">
+            <h3 className="text-foreground font-heading text-[14px] font-medium">
               Connect your GitHub
             </h3>
-            <p className="mt-1 text-[13px] text-gray-500">
+            <p className="text-muted-foreground mt-1 text-[13px]">
               Link your personal GitHub account so Devin can work on your
               repositories, commit changes, and open pull requests.
             </p>
@@ -186,14 +186,14 @@ export function GitHubPermissionsPanel({
               pressStyle="primary"
               disabled={isConnecting}
               onClick={handleConnect}
-              className="mt-3 cursor-pointer rounded-lg bg-[#4a90e2] px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-[#3d7ec8] disabled:cursor-not-allowed disabled:opacity-60"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 mt-3 cursor-pointer rounded-none px-4 py-2 text-[13px] font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isConnecting ? "Redirecting…" : "Connect GitHub"}
             </MotionButton>
           </div>
         </div>
 
-        <div className="mt-4 rounded-lg border border-[#252525] bg-[#111] px-3 py-2.5">
+        <div className="border-border bg-muted/30 mt-4 rounded-none border px-3 py-2.5">
           <div className="flex items-center justify-between gap-3">
             <div className="flex min-w-0 items-start gap-2.5">
               <Image
@@ -202,31 +202,31 @@ export function GitHubPermissionsPanel({
                 width={32}
                 height={32}
                 unoptimized
-                className="mt-0.5 size-8 rounded-full border border-[#333]"
+                className="border-border mt-0.5 size-8 rounded-full border"
               />
               <div className="min-w-0">
-                <p className="text-[13px] text-gray-200">
+                <p className="text-foreground text-[13px]">
                   Platform bot:{" "}
                   <a
                     href={DEVIN_BOT.profileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium text-[#5a9fd4] hover:underline"
+                    className="text-primary font-medium hover:underline"
                   >
                     @{displayBotUsername(status?.bot.username)}
                   </a>
                 </p>
-                <p className="text-[11px] text-gray-600">
+                <p className="text-muted-foreground text-[11px]">
                   Creates new repos and handles greenfield tasks on your behalf
                 </p>
               </div>
             </div>
             <span
               className={cn(
-                "rounded-full px-2.5 py-1 text-[11px] font-medium",
+                "rounded-none border px-2.5 py-0.5 text-[11px] font-medium",
                 status?.bot.configured
-                  ? "bg-emerald-500/10 text-emerald-400"
-                  : "bg-amber-500/10 text-amber-400",
+                  ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                  : "border-amber-500/25 bg-amber-500/10 text-amber-600 dark:text-amber-400",
               )}
             >
               {status?.bot.configured ? "Ready" : "Not configured"}
@@ -235,7 +235,7 @@ export function GitHubPermissionsPanel({
         </div>
 
         {error ? (
-          <p className="mt-3 text-[12px] text-red-400">{error}</p>
+          <p className="text-destructive mt-3 text-[12px]">{error}</p>
         ) : null}
       </div>
     );
@@ -244,22 +244,24 @@ export function GitHubPermissionsPanel({
   return (
     <div
       className={cn(
-        "rounded-xl border border-[#2a2a2a] bg-[#141414]",
+        "border-border bg-card text-card-foreground rounded-none border shadow-xs",
         compact ? "p-4" : "p-5",
       )}
     >
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h3 className="text-[14px] font-medium text-white">
+          <h3 className="text-foreground font-heading text-[14px] font-medium">
             GitHub permissions
           </h3>
-          <p className="mt-0.5 text-[12px] text-gray-500">
+          <p className="text-muted-foreground mt-0.5 text-[12px]">
             Connected as{" "}
-            <span className="text-gray-300">@{status.username}</span>
+            <span className="text-foreground font-medium">
+              @{status.username}
+            </span>
           </p>
         </div>
         {status.hasRepoAccess ? (
-          <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[11px] font-medium text-emerald-400">
+          <span className="flex items-center gap-1 rounded-none border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
             <Check className="size-3" />
             Repo access
           </span>
@@ -268,7 +270,7 @@ export function GitHubPermissionsPanel({
             type="button"
             disabled={isConnecting}
             onClick={handleRequestRepoAccess}
-            className="cursor-pointer rounded-lg border border-[#333] bg-[#1a1a1a] px-3 py-1.5 text-[12px] text-gray-300 transition-colors hover:bg-[#222] disabled:cursor-not-allowed"
+            className="border-input bg-background text-foreground hover:bg-muted cursor-pointer rounded-none border px-3 py-1.5 text-[12px] transition-colors disabled:cursor-not-allowed"
           >
             {isConnecting ? "Redirecting…" : "Grant repo access"}
           </MotionButton>
@@ -287,16 +289,18 @@ export function GitHubPermissionsPanel({
             <div
               key={item.key}
               className={cn(
-                "flex items-center justify-between gap-3 rounded-lg border border-[#252525] bg-[#111] px-3 py-2.5",
+                "border-border bg-muted/30 flex items-center justify-between gap-3 rounded-none border px-3 py-2.5",
                 botUnavailable && "opacity-60",
               )}
             >
               <div className="flex min-w-0 items-start gap-2.5">
-                <Icon className="mt-0.5 size-4 shrink-0 text-gray-500" />
+                <Icon className="text-muted-foreground mt-0.5 size-4 shrink-0" />
                 <div className="min-w-0">
-                  <p className="text-[13px] text-gray-200">{item.label}</p>
+                  <p className="text-foreground text-[13px] font-medium">
+                    {item.label}
+                  </p>
                   {!compact ? (
-                    <p className="text-[11px] text-gray-600">
+                    <p className="text-muted-foreground text-[11px]">
                       {botUnavailable
                         ? "Platform bot not configured by admin"
                         : item.description}
@@ -310,7 +314,9 @@ export function GitHubPermissionsPanel({
                 onClick={() => togglePermission(item.key)}
                 className={cn(
                   "relative h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors disabled:cursor-not-allowed disabled:opacity-40",
-                  enabled && !botUnavailable ? "bg-[#4a90e2]" : "bg-[#333]",
+                  enabled && !botUnavailable
+                    ? "bg-primary"
+                    : "bg-muted-foreground/30",
                 )}
                 aria-label={`Toggle ${item.label}`}
               >
@@ -327,13 +333,13 @@ export function GitHubPermissionsPanel({
       </div>
 
       {status.selectedRepository ? (
-        <p className="mt-3 text-[12px] text-gray-500">
+        <p className="text-muted-foreground mt-3 text-[12px]">
           Active repo:{" "}
           <a
             href={`https://github.com/${status.selectedRepository}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-[#5a9fd4] hover:text-[#6aa8ef]"
+            className="text-primary inline-flex items-center gap-1 font-medium hover:underline"
           >
             {status.selectedRepository}
             <ExternalLink className="size-3" />
@@ -343,18 +349,18 @@ export function GitHubPermissionsPanel({
 
       <div
         className={cn(
-          "mt-4 rounded-lg border px-3 py-2.5",
+          "mt-4 rounded-none border px-3 py-2.5",
           status.bot.configured
-            ? "border-[#252525] bg-[#111]"
+            ? "border-border bg-muted/30"
             : "border-amber-500/30 bg-amber-500/5",
         )}
       >
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="text-[13px] text-gray-200">
+            <p className="text-foreground text-[13px] font-medium">
               Platform bot: @{status.bot.username}
             </p>
-            <p className="text-[11px] text-gray-600">
+            <p className="text-muted-foreground text-[11px]">
               {status.bot.configured
                 ? "Used for new repo creation when no repository is selected"
                 : "Bot token not set. Contact admin to enable repo creation."}
@@ -362,10 +368,10 @@ export function GitHubPermissionsPanel({
           </div>
           <span
             className={cn(
-              "rounded-full px-2.5 py-1 text-[11px] font-medium",
+              "rounded-none border px-2.5 py-0.5 text-[11px] font-medium",
               status.bot.configured
-                ? "bg-emerald-500/10 text-emerald-400"
-                : "bg-amber-500/10 text-amber-400",
+                ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                : "border-amber-500/25 bg-amber-500/10 text-amber-600 dark:text-amber-400",
             )}
           >
             {status.bot.configured ? "Ready" : "Not configured"}
@@ -373,7 +379,9 @@ export function GitHubPermissionsPanel({
         </div>
       </div>
 
-      {error ? <p className="mt-3 text-[12px] text-red-400">{error}</p> : null}
+      {error ? (
+        <p className="text-destructive mt-3 text-[12px]">{error}</p>
+      ) : null}
     </div>
   );
 }

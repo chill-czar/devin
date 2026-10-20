@@ -50,15 +50,18 @@ function WorkStepLabel({
         <p
           className={cn(
             "flex min-w-0 flex-wrap items-center gap-1.5",
-            active ? "text-zinc-200" : "text-zinc-500",
+            active ? "text-foreground font-medium" : "text-muted-foreground",
           )}
         >
-          <span className="text-zinc-500">{shell.prefix}</span>
+          <span className="text-muted-foreground">{shell.prefix}</span>
           <ShellSource command={shell.command} />
         </p>
       ) : (
         <p
-          className={cn("min-w-0", active ? "text-zinc-200" : "text-zinc-500")}
+          className={cn(
+            "min-w-0",
+            active ? "text-foreground font-medium" : "text-muted-foreground",
+          )}
         >
           {line}
         </p>
@@ -66,7 +69,7 @@ function WorkStepLabel({
       {timeLabel ? (
         <time
           dateTime={timestamp}
-          className="shrink-0 pt-0.5 text-[11px] text-zinc-600 tabular-nums"
+          className="text-muted-foreground shrink-0 pt-0.5 text-[11px] tabular-nums"
         >
           {timeLabel}
         </time>
@@ -85,7 +88,9 @@ export function SessionWorkSteps({
   elapsedTime: string;
 }) {
   if (lines.length === 0 && !isActive) {
-    return <p className="text-[12px] text-zinc-600">No progress recorded.</p>;
+    return (
+      <p className="text-muted-foreground text-[12px]">No progress recorded.</p>
+    );
   }
 
   const header = isActive
@@ -93,11 +98,11 @@ export function SessionWorkSteps({
     : `Worked for ${elapsedTime}`;
 
   return (
-    <ChainOfThought defaultOpen className="space-y-3 text-zinc-400">
-      <ChainOfThoughtHeader className="text-zinc-500 hover:text-zinc-200">
+    <ChainOfThought defaultOpen className="text-muted-foreground space-y-3">
+      <ChainOfThoughtHeader className="text-muted-foreground hover:text-foreground font-medium">
         {header}
       </ChainOfThoughtHeader>
-      <ChainOfThoughtContent className="mt-3 space-y-0 text-zinc-400">
+      <ChainOfThoughtContent className="text-muted-foreground mt-3 space-y-0">
         {lines.map((entry, index) => {
           const isLast = index === lines.length - 1;
           const shell = parseShellLine(entry.line);
@@ -119,9 +124,9 @@ export function SessionWorkSteps({
                 />
               }
               className={cn(
-                "gap-3 border-l border-white/[0.06] py-2 pl-3 text-[12px]",
-                active ? "text-zinc-200" : "text-zinc-500",
-                active && "[&_svg]:animate-spin [&_svg]:text-emerald-400",
+                "border-border gap-3 border-l py-2 pl-3 text-[12px]",
+                active ? "text-foreground" : "text-muted-foreground",
+                active && "[&_svg]:text-primary [&_svg]:animate-spin",
               )}
             />
           );
@@ -131,11 +136,11 @@ export function SessionWorkSteps({
             icon={Circle}
             status="pending"
             label={
-              <p className="text-[12px] text-zinc-500">
+              <p className="text-muted-foreground text-[12px]">
                 Waiting for agent steps…
               </p>
             }
-            className="gap-3 py-2 pl-3 text-zinc-600"
+            className="text-muted-foreground gap-3 py-2 pl-3"
           />
         ) : null}
       </ChainOfThoughtContent>

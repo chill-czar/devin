@@ -19,7 +19,7 @@ export function DashboardShell({ userName, children }: DashboardShellProps) {
 
   return (
     <SessionsProvider>
-      <div className="flex h-screen overflow-hidden bg-[#0d0d0d] text-white">
+      <div className="bg-background text-foreground flex h-screen overflow-hidden">
         <Sidebar userName={userName} />
 
         <div className="relative flex min-w-0 flex-1 flex-col">

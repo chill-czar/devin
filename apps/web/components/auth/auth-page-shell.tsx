@@ -16,23 +16,23 @@ export function AuthPageShell({
   footer,
 }: AuthPageShellProps) {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#121212] px-4 py-12">
+    <div className="bg-background text-foreground flex min-h-screen flex-col items-center justify-center px-4 py-12">
       <div className="w-full max-w-[400px]">
-        <div className="mb-8 flex justify-center text-gray-500">
+        <div className="text-primary mb-8 flex justify-center">
           <Logo size={40} />
         </div>
 
         <div className="mb-8 text-center">
-          <h1 className="text-[28px] font-semibold tracking-tight text-white">
+          <h1 className="font-heading text-foreground text-2xl font-semibold tracking-tight">
             {title}
           </h1>
-          <p className="mt-2 text-[15px] text-gray-500">{subtitle}</p>
+          <p className="text-muted-foreground mt-2 text-sm">{subtitle}</p>
         </div>
 
         {children}
 
         {footer ? (
-          <div className="mt-8 text-center text-[14px] text-gray-500">
+          <div className="text-muted-foreground mt-8 text-center text-sm">
             {footer}
           </div>
         ) : null}
@@ -51,7 +51,7 @@ export function AuthFooterLink({
   return (
     <Link
       href={href}
-      className="font-medium text-[#4a90e2] hover:text-[#6aa8ef]"
+      className="text-primary font-medium transition-colors hover:underline"
     >
       {children}
     </Link>

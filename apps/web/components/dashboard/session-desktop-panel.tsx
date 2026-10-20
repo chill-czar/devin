@@ -102,26 +102,26 @@ function DesktopSnapshotAwaiting({
         }}
       />
       <div className="relative flex flex-col items-center gap-3">
-        <div className="relative rounded-2xl border border-white/[0.1] bg-[#121212]/90 p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_18px_40px_rgba(0,0,0,0.45)] backdrop-blur-sm">
-          <div className="relative flex h-16 w-24 items-center justify-center overflow-hidden rounded-lg border border-white/[0.08] bg-[#0b0b0b]">
+        <div className="border-border bg-card relative rounded-none border p-3 shadow-md">
+          <div className="border-border bg-background relative flex h-16 w-24 items-center justify-center overflow-hidden rounded-none border">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.08),transparent_55%)]" />
             <Monitor
-              className="relative size-6 text-zinc-500"
+              className="text-muted-foreground relative size-6"
               strokeWidth={1.5}
             />
-            <div className="absolute inset-x-3 bottom-2 h-px overflow-hidden rounded-full bg-emerald-950/80">
-              <div className="desktop-await-progress h-full w-2/5 rounded-full bg-emerald-400/80 shadow-[0_0_8px_rgba(52,211,153,0.7)]" />
+            <div className="bg-muted absolute inset-x-3 bottom-2 h-px overflow-hidden rounded-full">
+              <div className="desktop-await-progress bg-primary h-full w-2/5 rounded-full shadow-[0_0_8px_rgba(255,140,0,0.5)]" />
             </div>
           </div>
-          <div className="mx-auto mt-2 h-1 w-8 rounded-full bg-white/[0.08]" />
-          <div className="mx-auto mt-1 h-0.5 w-12 rounded-full bg-white/[0.05]" />
+          <div className="bg-muted mx-auto mt-2 h-1 w-8 rounded-full" />
+          <div className="bg-muted/60 mx-auto mt-1 h-0.5 w-12 rounded-full" />
         </div>
 
         <div className="space-y-1 text-center">
-          <p className="text-[12px] font-medium tracking-wide text-zinc-300">
+          <p className="text-foreground font-heading text-[12px] font-medium tracking-wide">
             {isActive ? "Preparing desktop" : "Waiting for desktop"}
           </p>
-          <p className="max-w-[220px] text-[10px] leading-relaxed text-zinc-600">
+          <p className="text-muted-foreground max-w-[220px] text-[10px] leading-relaxed">
             {isActive
               ? "First snapshot appears once the sandbox boots."
               : "No frame yet — refresh after the session wakes."}
@@ -385,8 +385,8 @@ export function SessionDesktopPanel({
   if (!canUse) {
     return (
       <div className="flex flex-col items-center justify-center gap-2 px-6 py-12 text-center">
-        <Monitor className="size-8 text-zinc-700" />
-        <p className="text-[13px] text-zinc-500">
+        <Monitor className="text-muted-foreground size-8" />
+        <p className="text-muted-foreground text-[13px]">
           Desktop preview unlocks with the devbox.
         </p>
       </div>
@@ -404,12 +404,12 @@ export function SessionDesktopPanel({
         isEmbed ? "min-h-[200px]" : "h-full",
       )}
     >
-      <div className="flex shrink-0 items-center justify-between gap-2 border-b border-white/[0.06] px-3 py-2">
+      <div className="border-border bg-card/40 flex shrink-0 items-center justify-between gap-2 border-b px-3 py-2">
         <div className="min-w-0">
-          <p className="truncate text-[11px] font-medium text-zinc-300">
+          <p className="text-foreground font-heading truncate text-[11px] font-medium">
             Desktop
           </p>
-          <p className="truncate text-[10px] text-zinc-600">
+          <p className="text-muted-foreground truncate text-[10px]">
             {showInteractive
               ? "Full VM desktop — mouse and keyboard (1024×768)"
               : "Latest screenshot of the agent desktop"}
@@ -417,15 +417,15 @@ export function SessionDesktopPanel({
         </div>
         {!isEmbed ? (
           <div className="flex shrink-0 items-center gap-1">
-            <div className="flex rounded-lg border border-white/[0.08] bg-[#111] p-0.5">
+            <div className="border-border bg-muted flex rounded-none border p-0.5">
               <button
                 type="button"
                 onClick={() => setView("snapshot")}
                 className={cn(
-                  "rounded-md px-2 py-0.5 text-[10px] font-medium transition-colors",
+                  "rounded-none px-2 py-0.5 text-[10px] font-medium transition-colors",
                   view === "snapshot"
-                    ? "bg-white/[0.08] text-zinc-100"
-                    : "text-zinc-500 hover:text-zinc-300",
+                    ? "bg-background text-foreground font-semibold shadow-xs"
+                    : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 Snapshot
@@ -434,10 +434,10 @@ export function SessionDesktopPanel({
                 type="button"
                 onClick={() => setView("interactive")}
                 className={cn(
-                  "rounded-md px-2 py-0.5 text-[10px] font-medium transition-colors",
+                  "rounded-none px-2 py-0.5 text-[10px] font-medium transition-colors",
                   view === "interactive"
-                    ? "bg-white/[0.08] text-zinc-100"
-                    : "text-zinc-500 hover:text-zinc-300",
+                    ? "bg-background text-foreground font-semibold shadow-xs"
+                    : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 Interactive
@@ -448,10 +448,13 @@ export function SessionDesktopPanel({
                 type="button"
                 onClick={() => void loadScreenshot(true)}
                 disabled={shotLoading}
-                className="inline-flex cursor-pointer items-center gap-1 rounded-md px-2 py-1 text-[11px] text-zinc-400 hover:bg-white/[0.06] hover:text-zinc-200 disabled:opacity-50"
+                className="text-muted-foreground hover:bg-muted hover:text-foreground inline-flex cursor-pointer items-center gap-1 rounded-none px-2 py-1 text-[11px] disabled:opacity-50"
               >
                 <RefreshCw
-                  className={cn("size-3.5", shotLoading && "animate-spin")}
+                  className={cn(
+                    "size-3.5",
+                    shotLoading && "text-primary animate-spin",
+                  )}
                 />
                 Refresh
               </button>
@@ -460,12 +463,12 @@ export function SessionDesktopPanel({
                 type="button"
                 onClick={() => void prepareInteractive()}
                 disabled={interactiveLoading}
-                className="inline-flex cursor-pointer items-center gap-1 rounded-md px-2 py-1 text-[11px] text-zinc-400 hover:bg-white/[0.06] hover:text-zinc-200 disabled:opacity-50"
+                className="text-muted-foreground hover:bg-muted hover:text-foreground inline-flex cursor-pointer items-center gap-1 rounded-none px-2 py-1 text-[11px] disabled:opacity-50"
               >
                 <RefreshCw
                   className={cn(
                     "size-3.5",
-                    interactiveLoading && "animate-spin",
+                    interactiveLoading && "text-primary animate-spin",
                   )}
                 />
                 Retry
@@ -477,10 +480,13 @@ export function SessionDesktopPanel({
             type="button"
             onClick={() => void loadScreenshot(true)}
             disabled={shotLoading}
-            className="inline-flex cursor-pointer items-center gap-1 rounded-md px-2 py-1 text-[11px] text-zinc-400 hover:bg-white/[0.06] hover:text-zinc-200 disabled:opacity-50"
+            className="text-muted-foreground hover:bg-muted hover:text-foreground inline-flex cursor-pointer items-center gap-1 rounded-none px-2 py-1 text-[11px] disabled:opacity-50"
           >
             <RefreshCw
-              className={cn("size-3.5", shotLoading && "animate-spin")}
+              className={cn(
+                "size-3.5",
+                shotLoading && "text-primary animate-spin",
+              )}
             />
             Refresh
           </button>
@@ -489,7 +495,7 @@ export function SessionDesktopPanel({
 
       <div
         className={cn(
-          "relative flex min-h-0 flex-1 items-center justify-center bg-[#0a0a0a]",
+          "bg-background relative flex min-h-0 flex-1 items-center justify-center",
           isEmbed ? "min-h-[180px] p-2" : "p-0",
         )}
       >
@@ -504,7 +510,7 @@ export function SessionDesktopPanel({
               />
               {snapshotUpdating ? (
                 <div className="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center">
-                  <span className="rounded-full border border-white/[0.08] bg-[#121212]/90 px-2.5 py-1 text-[10px] text-zinc-400 backdrop-blur-sm">
+                  <span className="border-border bg-card/90 text-muted-foreground rounded-none border px-2.5 py-1 text-[10px] shadow-xs backdrop-blur-sm">
                     Updating desktop…
                   </span>
                 </div>
@@ -512,8 +518,11 @@ export function SessionDesktopPanel({
             </div>
           ) : shotError ? (
             <div className="flex flex-col items-center gap-2 p-6">
-              <Monitor className="size-6 text-zinc-600" strokeWidth={1.5} />
-              <p className="max-w-sm text-center text-[12px] text-zinc-500">
+              <Monitor
+                className="text-muted-foreground size-6"
+                strokeWidth={1.5}
+              />
+              <p className="text-destructive max-w-sm text-center text-[12px]">
                 {shotError}
               </p>
             </div>
@@ -537,11 +546,11 @@ export function SessionDesktopPanel({
             <div className="flex flex-col items-center gap-2 p-6">
               <Loader2
                 className={cn(
-                  "size-6 text-zinc-600",
+                  "text-primary size-6",
                   interactiveLoading && "animate-spin",
                 )}
               />
-              <p className="max-w-sm text-center text-[12px] text-zinc-500">
+              <p className="text-muted-foreground max-w-sm text-center text-[12px]">
                 {interactiveError ??
                   (interactiveLoading
                     ? "Starting interactive desktop…"
@@ -556,9 +565,9 @@ export function SessionDesktopPanel({
         <button
           type="button"
           onClick={onOpenDesktop}
-          className="mx-3 mt-1 mb-3 flex w-[calc(100%-1.5rem)] cursor-pointer items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-[#141414] py-2 text-[12px] font-medium text-zinc-200 transition-colors hover:bg-[#1a1a1a]"
+          className="border-border bg-card text-foreground hover:bg-muted mx-3 mt-1 mb-3 flex w-[calc(100%-1.5rem)] cursor-pointer items-center justify-center gap-2 rounded-none border py-2 text-[12px] font-medium shadow-xs transition-colors"
         >
-          <Monitor className="size-4 text-zinc-400" />
+          <Monitor className="text-primary size-4" />
           Open Desktop
         </button>
       ) : null}

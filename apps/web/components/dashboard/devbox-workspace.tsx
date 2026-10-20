@@ -63,13 +63,15 @@ export function DevboxWorkspace({
     return (
       <div
         className={cn(
-          "flex flex-col items-center justify-center rounded-xl border border-dashed border-white/[0.08] bg-white/[0.02] px-6 py-12 text-center",
+          "border-border bg-card/50 flex flex-col items-center justify-center rounded-none border border-dashed px-6 py-12 text-center",
           layout === "panel" ? "min-h-[200px] flex-1" : "mb-4",
         )}
       >
-        <FileCode2 className="mb-3 size-8 text-zinc-600" />
-        <p className="text-[13px] text-zinc-400">Devbox workspace</p>
-        <p className="mt-1 max-w-sm text-[12px] text-zinc-600">
+        <FileCode2 className="text-muted-foreground mb-3 size-8" />
+        <p className="text-foreground text-[13px] font-medium">
+          Devbox workspace
+        </p>
+        <p className="text-muted-foreground mt-1 max-w-sm text-[12px]">
           Files and shell unlock once the sandbox is running.
         </p>
       </div>
@@ -81,14 +83,13 @@ export function DevboxWorkspace({
       className={cn(
         "flex min-h-0 flex-col overflow-hidden",
         layout === "panel"
-          ? "min-h-[240px] flex-1 rounded-xl border border-white/[0.06] bg-[#08080a]"
-          : "mb-4 rounded-xl border border-[#2a2a2a] bg-[#0a0a0a]",
+          ? "border-border bg-card min-h-[240px] flex-1 rounded-none border"
+          : "border-border bg-card mb-4 rounded-none border",
       )}
     >
       <div
         className={cn(
-          "flex flex-wrap items-center justify-between gap-2 border-b px-4 py-2.5",
-          layout === "panel" ? "border-white/[0.06]" : "border-[#252525]",
+          "border-border flex flex-wrap items-center justify-between gap-2 border-b px-4 py-2.5",
         )}
       >
         <div className="flex items-center gap-1">
@@ -113,12 +114,12 @@ export function DevboxWorkspace({
         </div>
         {task.sessionSleeping ? (
           <div className="flex items-center gap-2">
-            <span className="text-[11px] text-amber-300">Devbox sleeping</span>
+            <span className="text-[11px] text-amber-500">Devbox sleeping</span>
             <MotionButton
               type="button"
               onClick={() => void handleWake()}
               disabled={waking}
-              className="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-amber-400/30 bg-amber-500/10 px-2.5 py-1 text-[11px] text-amber-100 hover:bg-amber-500/20 disabled:opacity-60"
+              className="inline-flex cursor-pointer items-center gap-1.5 rounded-none border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-[11px] text-amber-600 hover:bg-amber-500/20 disabled:opacity-60 dark:text-amber-400"
             >
               {waking ? <Loader2 className="size-3 animate-spin" /> : null}
               Wake devbox
@@ -128,7 +129,7 @@ export function DevboxWorkspace({
       </div>
 
       {wakeError ? (
-        <p className="border-b border-[#252525] px-4 py-2 text-[12px] text-red-300">
+        <p className="border-border text-destructive border-b px-4 py-2 text-[12px]">
           {wakeError}
         </p>
       ) : null}
@@ -162,10 +163,10 @@ function WorkspaceTabButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12px] transition-colors",
+        "inline-flex cursor-pointer items-center gap-1.5 rounded-none px-2.5 py-1.5 text-[12px] font-medium transition-colors",
         active
-          ? "bg-[#1f1f1f] text-gray-100"
-          : "text-gray-500 hover:bg-[#151515] hover:text-gray-300",
+          ? "bg-primary/10 text-primary border-primary border-b-2"
+          : "text-muted-foreground hover:bg-muted hover:text-foreground",
       )}
     >
       <Icon className="size-3.5" />
@@ -231,24 +232,29 @@ function InteractiveShell({
     <div className="flex flex-col">
       <div
         ref={outputRef}
-        className="max-h-[320px] min-h-[180px] overflow-auto p-3 font-mono text-[12px] leading-relaxed text-green-400"
+        className="bg-muted/40 text-foreground max-h-[320px] min-h-[180px] overflow-auto p-3 font-mono text-[12px] leading-relaxed"
       >
         {lines.length === 0 ? (
-          <p className="text-gray-600">
+          <p className="text-muted-foreground">
             Run shell commands in the live devbox (repo cwd).
           </p>
         ) : (
           lines.map((line, index) => (
             <div
               key={`${index}-${line.slice(0, 24)}`}
-              className="whitespace-pre-wrap"
+              className={cn(
+                "whitespace-pre-wrap",
+                line.startsWith("$")
+                  ? "text-primary font-medium"
+                  : "text-foreground",
+              )}
             >
               {line}
             </div>
           ))
         )}
       </div>
-      <div className="flex gap-2 border-t border-[#252525] p-3">
+      <div className="border-border flex gap-2 border-t p-3">
         <input
           value={command}
           onChange={(event) => setCommand(event.target.value)}
@@ -261,13 +267,13 @@ function InteractiveShell({
           placeholder={
             disabled ? "Wake devbox to run commands…" : "Enter command…"
           }
-          className="min-w-0 flex-1 rounded-lg border border-[#333] bg-[#111] px-3 py-2 font-mono text-[12px] text-gray-200 outline-none placeholder:text-gray-600 focus:border-[#444] disabled:opacity-60"
+          className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-ring min-w-0 flex-1 rounded-none border px-3 py-2 font-mono text-[12px] outline-none disabled:opacity-60"
         />
         <MotionButton
           type="button"
           onClick={() => void runCommand()}
           disabled={disabled || running || !command.trim()}
-          className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-green-500/30 bg-green-500/10 px-3 py-2 text-[12px] text-green-200 hover:bg-green-500/20 disabled:opacity-60"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-none px-3 py-2 text-[12px] font-medium disabled:opacity-60"
         >
           {running ? (
             <Loader2 className="size-3.5 animate-spin" />
@@ -344,22 +350,22 @@ function FileExplorer({
 
   return (
     <div className="grid min-h-[280px] flex-1 grid-cols-1 lg:grid-cols-[minmax(140px,34%)_1fr]">
-      <div className="border-b border-white/[0.06] lg:border-r lg:border-b-0">
-        <div className="flex items-center justify-between border-b border-[#252525] px-3 py-2">
-          <span className="truncate font-mono text-[11px] text-gray-500">
+      <div className="border-border border-b lg:border-r lg:border-b-0">
+        <div className="border-border flex items-center justify-between border-b px-3 py-2">
+          <span className="text-muted-foreground truncate font-mono text-[11px]">
             /workspace/{path}
           </span>
           {loading ? (
-            <Loader2 className="size-3.5 animate-spin text-gray-500" />
+            <Loader2 className="text-muted-foreground size-3.5 animate-spin" />
           ) : null}
         </div>
         <div className="max-h-none min-h-[200px] flex-1 overflow-auto p-2 lg:max-h-[min(50vh,420px)]">
           {disabled ? (
-            <p className="px-2 py-3 text-[12px] text-gray-600">
+            <p className="text-muted-foreground px-2 py-3 text-[12px]">
               Wake devbox to browse files.
             </p>
           ) : error ? (
-            <p className="px-2 py-3 text-[12px] text-red-300">{error}</p>
+            <p className="text-destructive px-2 py-3 text-[12px]">{error}</p>
           ) : (
             entries.map((entry) => (
               <button
@@ -367,10 +373,10 @@ function FileExplorer({
                 type="button"
                 onClick={() => void openFile(entry)}
                 className={cn(
-                  "flex w-full cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-left text-[12px] hover:bg-[#151515]",
+                  "hover:bg-muted flex w-full cursor-pointer items-center gap-2 rounded-none px-2 py-1.5 text-left text-[12px] transition-colors",
                   selected === entry.path
-                    ? "bg-[#1a1a1a] text-indigo-200"
-                    : "text-gray-300",
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "text-foreground",
                 )}
               >
                 <span className="truncate font-mono">
@@ -381,13 +387,15 @@ function FileExplorer({
           )}
         </div>
       </div>
-      <div className="min-h-[200px] flex-1 overflow-auto bg-[#0a0a0c] p-3 lg:max-h-[min(50vh,420px)]">
+      <div className="bg-muted/30 min-h-[200px] flex-1 overflow-auto p-3 lg:max-h-[min(50vh,420px)]">
         {selected ? (
-          <pre className="font-mono text-[12px] leading-relaxed whitespace-pre-wrap text-zinc-300">
+          <pre className="text-foreground font-mono text-[12px] leading-relaxed whitespace-pre-wrap">
             {content}
           </pre>
         ) : (
-          <p className="text-[12px] text-gray-600">Select a file to preview.</p>
+          <p className="text-muted-foreground text-[12px]">
+            Select a file to preview.
+          </p>
         )}
       </div>
     </div>

@@ -73,7 +73,13 @@ export const Confirmation = ({
 
   return (
     <ConfirmationContext.Provider value={contextValue}>
-      <Alert className={cn("flex flex-col gap-2", className)} {...props} />
+      <Alert
+        className={cn(
+          "border-border bg-card text-card-foreground flex flex-col gap-2 rounded-none border",
+          className,
+        )}
+        {...props}
+      />
     </ConfirmationContext.Provider>
   );
 };
@@ -169,6 +175,13 @@ export const ConfirmationActions = ({
 
 export type ConfirmationActionProps = ComponentProps<typeof Button>;
 
-export const ConfirmationAction = (props: ConfirmationActionProps) => (
-  <Button className="h-8 px-3 text-sm" type="button" {...props} />
+export const ConfirmationAction = ({
+  className,
+  ...props
+}: ConfirmationActionProps) => (
+  <Button
+    className={cn("h-8 rounded-none px-3 text-xs font-medium", className)}
+    type="button"
+    {...props}
+  />
 );

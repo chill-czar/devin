@@ -35,13 +35,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (pathname === "/login" && hasSessionCookie(request)) {
-    const sessionsUrl = request.nextUrl.clone();
-    sessionsUrl.pathname = "/s";
-    sessionsUrl.search = "";
-    return NextResponse.redirect(sessionsUrl);
-  }
-
   return NextResponse.next();
 }
 

@@ -3,6 +3,10 @@ export type AgentProvider = "brain" | "mock";
 export const BRAIN_AGENT_MODELS = [
   { id: "gpt-4o-mini", label: "GPT-4o mini" },
   { id: "gpt-4.1-mini", label: "GPT-4.1 mini" },
+  { id: "gemini-3.8-flash", label: "Gemini 3.8 Flash" },
+  { id: "gemini-3.1-pro-preview", label: "Gemini 3.1 Pro (Preview)" },
+  { id: "gemini-3.7-flash", label: "Gemini 3.7 Flash" },
+  { id: "gemini-3.5-flash-lite", label: "Gemini 3.5 Flash-Lite" },
 ] as const;
 
 export type BrainAgentModelId = (typeof BRAIN_AGENT_MODELS)[number]["id"];
@@ -13,17 +17,22 @@ const KNOWN_BRAIN_MODELS = new Set<string>(
   BRAIN_AGENT_MODELS.map((model) => model.id),
 );
 
-/** Map legacy Cursor model ids and unknown values to a cheap OpenAI default. */
+/** Map legacy Cursor model ids and unknown values to a cheap OpenAI/Gemini default. */
 export function resolveBrainAgentModel(
   raw: string | undefined | null,
   fallback?: string | undefined | null,
 ): BrainAgentModelId {
-  const trimmed = (raw?.trim() || fallback?.trim() || "").toLowerCase();
-  if (!trimmed || trimmed === "auto") {
-    return DEFAULT_BRAIN_AGENT_MODEL;
-  }
-  if (KNOWN_BRAIN_MODELS.has(trimmed)) {
+  const trimmed = (raw?.trim() || "").toLowerCase();
+  if (trimmed && trimmed !== "auto" && KNOWN_BRAIN_MODELS.has(trimmed)) {
     return trimmed as BrainAgentModelId;
+  }
+  const fallbackTrimmed = (fallback?.trim() || "").toLowerCase();
+  if (
+    fallbackTrimmed &&
+    fallbackTrimmed !== "auto" &&
+    KNOWN_BRAIN_MODELS.has(fallbackTrimmed)
+  ) {
+    return fallbackTrimmed as BrainAgentModelId;
   }
   return DEFAULT_BRAIN_AGENT_MODEL;
 }

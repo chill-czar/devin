@@ -27,6 +27,13 @@ export function DashboardPage({ children }: { children: ReactNode }) {
         return;
       }
 
+      if (typeof document !== "undefined") {
+        document.cookie =
+          "better-auth.session_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        document.cookie =
+          "__Secure-better-auth.session_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      }
+
       const authError = searchParams.get("error");
       router.replace(
         authError ? `/login?error=${encodeURIComponent(authError)}` : "/login",

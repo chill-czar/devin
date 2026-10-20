@@ -1,0 +1,7 @@
+
+> @devin/brain@ start /home/jimmy/Desktop/DEV/resume/devin/apps/brain
+> npx tsx src/bin.ts
+
+[hydradb] disabled — set HYDRADB_API_KEY and HYDRADB_DATABASE (or HYDRADB_TENANT_ID) on Brain
+brain listening @ http://0.0.0.0:9092
+orchestrator: http://localhost:9090

@@ -42,9 +42,13 @@ export function LoadingLogo({ size = 56, className }: LoadingLogoProps) {
       style={{ width: size, height: size }}
       aria-hidden
     >
-      <LogoSvg size={size} fill="#353535" className="absolute inset-0" />
+      <LogoSvg
+        size={size}
+        fill="currentColor"
+        className="text-muted-foreground/25 absolute inset-0"
+      />
       <motion.div
-        className="absolute inset-0"
+        className="text-primary absolute inset-0"
         initial={{ clipPath: "inset(100% 0 0 0)" }}
         animate={{
           clipPath: [
@@ -59,7 +63,7 @@ export function LoadingLogo({ size = 56, className }: LoadingLogoProps) {
           repeat: Infinity,
         }}
       >
-        <LogoSvg size={size} fill="#d4d4d4" />
+        <LogoSvg size={size} fill="currentColor" />
       </motion.div>
     </div>
   );

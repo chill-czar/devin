@@ -19,14 +19,14 @@ export function ShellSource({ command, label, className }: ShellSourceProps) {
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex max-w-full items-center gap-1 rounded-full border border-white/[0.08] bg-[#141414] px-2 py-0.5 text-[11px] text-zinc-300 transition-colors hover:border-white/[0.14] hover:text-zinc-100"
+        className="border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground inline-flex max-w-full items-center gap-1 rounded-none border px-2 py-0.5 text-[11px] transition-colors"
       >
-        <Terminal className="size-3 shrink-0 text-emerald-400" />
+        <Terminal className="text-primary size-3 shrink-0" />
         <span className="truncate font-mono">{display}</span>
       </button>
       {open ? (
-        <div className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#0f0f0f] p-2">
-          <pre className="overflow-x-auto font-mono text-[11px] leading-relaxed whitespace-pre-wrap text-zinc-300">
+        <div className="border-border bg-muted/60 mt-1 w-full rounded-none border p-2">
+          <pre className="text-foreground overflow-x-auto font-mono text-[11px] leading-relaxed whitespace-pre-wrap">
             {command}
           </pre>
         </div>
@@ -46,7 +46,7 @@ export function Source({ href, children }: SourceProps) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 text-emerald-400 underline-offset-2 hover:underline"
+      className="text-primary inline-flex items-center gap-1 underline-offset-2 hover:underline"
     >
       {children}
     </a>
@@ -63,7 +63,7 @@ export function SourceTrigger({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full bg-white/[0.06] px-2 py-0.5 text-[11px] text-zinc-300",
+        "border-border bg-muted/60 text-muted-foreground inline-flex items-center rounded-none border px-2 py-0.5 text-[11px]",
         className,
       )}
     >

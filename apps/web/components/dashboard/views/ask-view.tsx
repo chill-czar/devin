@@ -66,21 +66,21 @@ export function AskView() {
   return (
     <div className="flex w-full max-w-[840px] flex-col items-center">
       <div className="mb-6 flex justify-center">
-        <DashboardLogo size={52} className="text-[#525252]" />
+        <DashboardLogo size={52} className="text-primary" />
       </div>
 
-      <h1 className="mb-6 text-[22px] font-medium text-gray-200">
+      <h1 className="text-foreground font-heading mb-6 text-[22px] font-medium">
         What questions do you have?
       </h1>
 
       <div className="relative w-full">
-        <div className="w-full overflow-hidden rounded-[28px] border border-[#333] bg-[#1a1a1a] shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_8px_32px_rgba(0,0,0,0.4)]">
+        <div className="border-border bg-card text-card-foreground w-full overflow-hidden rounded-none border shadow-md">
           <textarea
             value={prompt}
             onChange={(event) => setPrompt(event.target.value)}
             placeholder="Ask Devin questions about your code"
             rows={3}
-            className="w-full resize-none bg-transparent px-5 pt-5 pb-2 text-[15px] leading-relaxed text-white outline-none selection:bg-white selection:text-[#1a1a1a] placeholder:text-gray-500"
+            className="text-foreground placeholder:text-muted-foreground w-full resize-none bg-transparent px-5 pt-5 pb-2 text-[15px] leading-relaxed outline-none"
           />
 
           <div className="flex items-center justify-between px-3 pt-1 pb-3.5">
@@ -88,26 +88,26 @@ export function AskView() {
               <MotionButton
                 type="button"
                 onClick={() => setMenuOpen((open) => !open)}
-                className="flex cursor-pointer items-center gap-1.5 rounded-full border border-[#333] bg-[#161616] px-2.5 py-1 text-[13px] text-gray-300 transition-colors hover:bg-[#222] hover:text-white"
+                className="border-border bg-muted/60 text-foreground hover:bg-muted flex cursor-pointer items-center gap-1.5 rounded-none border px-2.5 py-1 text-[13px] transition-colors"
               >
                 <ActiveIcon
-                  className="size-3.5 text-gray-400"
+                  className="text-muted-foreground size-3.5"
                   strokeWidth={1.75}
                 />
                 {activeMode.label}
-                <ChevronDown className="size-3 text-gray-500" />
+                <ChevronDown className="text-muted-foreground size-3" />
               </MotionButton>
               <MotionButton
                 type="button"
                 pressStyle="icon"
-                className="cursor-pointer rounded-full p-1.5 text-gray-500 transition-colors hover:bg-[#222] hover:text-gray-300"
+                className="text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer rounded-none p-1.5 transition-colors"
                 aria-label="Add attachment"
               >
                 <Plus className="size-4" />
               </MotionButton>
 
               {menuOpen ? (
-                <div className="absolute bottom-full left-0 z-20 mb-2 w-[280px] overflow-hidden rounded-xl border border-[#333] bg-[#1e1e1e] py-1 shadow-2xl">
+                <div className="border-border bg-popover text-popover-foreground absolute bottom-full left-0 z-20 mb-2 w-[280px] overflow-hidden rounded-none border py-1 shadow-lg">
                   {modes.map((item) => {
                     const Icon = item.icon;
                     const isSelected = mode === item.id;
@@ -121,19 +121,20 @@ export function AskView() {
                           setMenuOpen(false);
                         }}
                         className={cn(
-                          "flex w-full cursor-pointer items-start gap-3 px-3 py-2.5 text-left transition-colors hover:bg-[#252525]",
-                          isSelected && "bg-[#252525]/60",
+                          "hover:bg-muted flex w-full cursor-pointer items-start gap-3 px-3 py-2.5 text-left transition-colors",
+                          isSelected &&
+                            "bg-primary/10 text-primary font-medium",
                         )}
                       >
                         <Icon
-                          className="mt-0.5 size-4 shrink-0 text-gray-400"
+                          className="text-muted-foreground mt-0.5 size-4 shrink-0"
                           strokeWidth={1.75}
                         />
                         <div>
-                          <p className="text-[14px] font-medium text-white">
+                          <p className="text-foreground text-[14px] font-medium">
                             {item.label}
                           </p>
-                          <p className="text-[12px] text-gray-500">
+                          <p className="text-muted-foreground text-[12px]">
                             {item.description}
                           </p>
                         </div>
@@ -141,15 +142,15 @@ export function AskView() {
                     );
                   })}
 
-                  <div className="mt-1 border-t border-[#2a2a2a] px-3 py-3">
+                  <div className="border-border mt-1 border-t px-3 py-3">
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex gap-2">
-                        <Info className="mt-0.5 size-4 shrink-0 text-gray-500" />
+                        <Info className="text-muted-foreground mt-0.5 size-4 shrink-0" />
                         <div>
-                          <p className="text-[14px] font-medium text-white">
+                          <p className="text-foreground text-[14px] font-medium">
                             Deep mode
                           </p>
-                          <p className="text-[12px] leading-relaxed text-gray-500">
+                          <p className="text-muted-foreground text-[12px] leading-relaxed">
                             More thorough answers with deeper reasoning
                           </p>
                         </div>
@@ -161,7 +162,7 @@ export function AskView() {
                         onClick={() => setDeepMode((on) => !on)}
                         className={cn(
                           "relative mt-1 h-5 w-9 shrink-0 cursor-pointer rounded-full transition-colors",
-                          deepMode ? "bg-[#4a90e2]" : "bg-[#3a3a3a]",
+                          deepMode ? "bg-primary" : "bg-muted-foreground/30",
                         )}
                       >
                         <span
@@ -181,7 +182,7 @@ export function AskView() {
               <MotionButton
                 type="button"
                 pressStyle="icon"
-                className="cursor-pointer rounded-full p-1.5 text-gray-500 transition-colors hover:bg-[#222] hover:text-gray-300"
+                className="text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer rounded-none p-1.5 transition-colors"
                 aria-label="Voice input"
               >
                 <Mic className="size-4" />
@@ -191,10 +192,10 @@ export function AskView() {
                 pressStyle="primary"
                 disabled={!prompt.trim()}
                 className={cn(
-                  "flex size-8 cursor-pointer items-center justify-center rounded-full transition-colors disabled:cursor-not-allowed",
+                  "flex size-8 cursor-pointer items-center justify-center rounded-none transition-colors disabled:cursor-not-allowed",
                   prompt.trim()
-                    ? "bg-[#4a90e2] text-white hover:bg-[#3d7ec8]"
-                    : "bg-[#2a2a2a] text-gray-600",
+                    ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-xs"
+                    : "bg-muted text-muted-foreground",
                 )}
                 aria-label="Send prompt"
               >

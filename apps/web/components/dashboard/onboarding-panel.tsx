@@ -90,19 +90,19 @@ export function OnboardingPanel({
 
   return (
     <>
-      <div className="w-full max-w-[840px] overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#141414]">
-        <div className="flex items-center justify-between border-b border-[#2a2a2a] px-4 py-3">
-          <h2 className="text-[14px] font-medium text-white">
+      <div className="border-border bg-card text-card-foreground w-full max-w-[840px] overflow-hidden rounded-none border shadow-xs">
+        <div className="border-border flex items-center justify-between border-b px-4 py-3">
+          <h2 className="text-foreground font-heading text-[14px] font-medium">
             Get started with Devin
           </h2>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
-              <span className="text-[12px] text-gray-500">
+              <span className="text-muted-foreground text-[12px]">
                 {completedCount} of {totalCount}
               </span>
-              <div className="h-1.5 w-16 overflow-hidden rounded-full bg-[#2a2a2a]">
+              <div className="bg-muted h-1.5 w-16 overflow-hidden rounded-full">
                 <div
-                  className="h-full rounded-full bg-[#4a90e2] transition-all"
+                  className="bg-primary h-full rounded-full transition-all"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -111,7 +111,7 @@ export function OnboardingPanel({
               type="button"
               pressStyle="icon"
               onClick={() => setShowDismissModal(true)}
-              className="cursor-pointer rounded p-1 text-gray-500 transition-colors hover:bg-[#1e1e1e] hover:text-gray-300"
+              className="text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer rounded-none p-1 transition-colors"
               aria-label="Dismiss onboarding"
             >
               <X className="size-4" />
@@ -125,8 +125,8 @@ export function OnboardingPanel({
               key={item.id}
               type="button"
               className={cn(
-                "flex w-full cursor-pointer items-center justify-between rounded-md px-3 py-2.5 text-left transition-colors hover:bg-[#1a1a1a]/60",
-                item.current && "bg-[#1a1a1a]",
+                "hover:bg-muted/60 flex w-full cursor-pointer items-center justify-between rounded-none px-3 py-2.5 text-left transition-colors",
+                item.current && "bg-muted/80",
               )}
             >
               <div className="flex items-center gap-3">
@@ -134,8 +134,8 @@ export function OnboardingPanel({
                   className={cn(
                     "flex size-5 shrink-0 items-center justify-center rounded-full border",
                     item.completed
-                      ? "border-[#4a90e2] bg-[#4a90e2] text-white"
-                      : "border-[#3a3a3a] bg-transparent",
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border bg-transparent",
                   )}
                 >
                   {item.completed ? (
@@ -145,21 +145,25 @@ export function OnboardingPanel({
                 <span
                   className={cn(
                     "text-[14px]",
-                    item.completed ? "text-gray-400" : "text-gray-200",
+                    item.completed
+                      ? "text-muted-foreground line-through"
+                      : "text-foreground font-medium",
                   )}
                 >
                   {item.label}
                 </span>
               </div>
               {item.badge ? (
-                <span className="text-[12px] text-gray-500">{item.badge}</span>
+                <span className="text-primary bg-primary/10 border-primary/25 rounded-none border px-1.5 py-0.5 text-[12px] font-medium">
+                  {item.badge}
+                </span>
               ) : null}
             </MotionButton>
           ))}
 
           {showAdvancedTips ? (
             <>
-              <p className="mt-2 px-3 py-1.5 text-[13px] font-medium text-gray-500">
+              <p className="text-muted-foreground font-heading mt-2 px-3 py-1.5 text-[13px] font-medium">
                 Advanced
               </p>
 
@@ -167,10 +171,10 @@ export function OnboardingPanel({
                 <MotionButton
                   key={item.id}
                   type="button"
-                  className="flex w-full cursor-pointer items-center gap-3 rounded-md px-3 py-2.5 text-left transition-colors hover:bg-[#1a1a1a]/60"
+                  className="hover:bg-muted/60 flex w-full cursor-pointer items-center gap-3 rounded-none px-3 py-2.5 text-left transition-colors"
                 >
-                  <span className="flex size-5 shrink-0 items-center justify-center rounded-full border border-[#3a3a3a]" />
-                  <span className="text-[14px] text-gray-200">
+                  <span className="border-border flex size-5 shrink-0 items-center justify-center rounded-full border" />
+                  <span className="text-foreground text-[14px]">
                     {item.label}
                   </span>
                 </MotionButton>
@@ -182,7 +186,7 @@ export function OnboardingPanel({
         <MotionButton
           type="button"
           onClick={() => setShowAdvancedTips((open) => !open)}
-          className="flex w-full cursor-pointer items-center justify-center gap-1.5 border-t border-[#2a2a2a] bg-[#121212] px-4 py-2.5 text-[13px] text-gray-500 transition-colors hover:bg-[#1a1a1a] hover:text-gray-400"
+          className="border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground flex w-full cursor-pointer items-center justify-center gap-1.5 border-t px-4 py-2.5 text-[13px] transition-colors"
         >
           {showAdvancedTips ? (
             <>

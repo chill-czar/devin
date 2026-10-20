@@ -261,6 +261,7 @@ func (m *Manager) takeWarm(runtime, name string) (*vm.Instance, bool) {
 		if m.readyCount > 0 {
 			m.readyCount--
 		}
+		delete(m.warmVMs, warm.ID)
 		m.mu.Unlock()
 		warm.Name = name
 		warm.Message = "assigned from warm pool"

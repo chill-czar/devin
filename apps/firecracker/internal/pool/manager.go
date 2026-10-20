@@ -58,6 +58,8 @@ type Manager struct {
 	ready             map[string]chan *vm.Instance
 	readyCount        int
 	usedCPU           int32
+	warmVMs           map[string]*vm.Instance
+	inFlight          map[string]struct{}
 	warmErrors        map[string]string
 	availableRuntimes []string
 }
@@ -74,6 +76,8 @@ func NewManager(cfg config.Config) (*Manager, error) {
 		assigned:   make(map[string]*vm.Instance),
 		vmCPU:      make(map[string]int32),
 		ready:      make(map[string]chan *vm.Instance),
+		warmVMs:    make(map[string]*vm.Instance),
+		inFlight:   make(map[string]struct{}),
 		warmErrors: make(map[string]string),
 	}
 
@@ -87,8 +91,14 @@ func NewManager(cfg config.Config) (*Manager, error) {
 	m.launcher.SetActiveIDs(func() map[string]struct{} {
 		m.mu.RLock()
 		defer m.mu.RUnlock()
-		keep := make(map[string]struct{}, len(m.vms))
+		keep := make(map[string]struct{}, len(m.vms)+len(m.warmVMs)+len(m.inFlight))
 		for id := range m.vms {
+			keep[id] = struct{}{}
+		}
+		for id := range m.warmVMs {
+			keep[id] = struct{}{}
+		}
+		for id := range m.inFlight {
 			keep[id] = struct{}{}
 		}
 		return keep
@@ -158,8 +168,14 @@ func (m *Manager) pruneOrphansLoop(ctx context.Context, every time.Duration) {
 			return
 		case <-ticker.C:
 			m.mu.RLock()
-			keep := make(map[string]struct{}, len(m.vms))
+			keep := make(map[string]struct{}, len(m.vms)+len(m.warmVMs)+len(m.inFlight))
 			for id := range m.vms {
+				keep[id] = struct{}{}
+			}
+			for id := range m.warmVMs {
+				keep[id] = struct{}{}
+			}
+			for id := range m.inFlight {
 				keep[id] = struct{}{}
 			}
 			m.mu.RUnlock()

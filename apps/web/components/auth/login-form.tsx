@@ -67,12 +67,14 @@ export function LoginForm() {
 
   if (emailSent) {
     return (
-      <div className="rounded-md border border-[#333] bg-[#1e1e1e] px-4 py-5 text-center">
-        <p className="text-[15px] font-medium text-white">Check your email</p>
-        <p className="mt-2 text-[14px] leading-relaxed text-gray-500">
+      <div className="border-border bg-card rounded-none border px-4 py-5 text-center shadow-xs">
+        <p className="text-card-foreground text-sm font-semibold">
+          Check your email
+        </p>
+        <p className="text-muted-foreground mt-2 text-xs leading-relaxed">
           We sent a sign-in link to{" "}
-          <span className="text-gray-300">{email}</span>. Click the link to
-          continue to Devin.
+          <span className="text-foreground font-medium">{email}</span>. Click
+          the link to continue to Devin.
         </p>
       </div>
     );
@@ -95,22 +97,22 @@ export function LoginForm() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           className={cn(
-            "w-full rounded-md border border-[#333] bg-[#1a1a1a] px-4 py-3",
-            "text-[15px] text-white placeholder:text-gray-500",
-            "outline-none focus:border-[#4a90e2] focus:ring-1 focus:ring-[#4a90e2]",
+            "border-input bg-background w-full rounded-none border px-4 py-2.5",
+            "text-foreground placeholder:text-muted-foreground text-sm shadow-xs",
+            "focus:border-ring focus:ring-ring transition-colors outline-none focus:ring-1",
           )}
         />
 
         {error ? (
-          <p className="text-center text-[13px] text-red-400">{error}</p>
+          <p className="text-destructive text-center text-xs">{error}</p>
         ) : null}
 
         <button
           type="submit"
           disabled={isSubmitting}
           className={cn(
-            "w-full rounded-md bg-[#4a90e2] px-4 py-3 text-[15px] font-semibold text-white",
-            "transition-colors hover:bg-[#3d7ec8] disabled:cursor-not-allowed disabled:opacity-60",
+            "bg-primary text-primary-foreground w-full cursor-pointer rounded-none px-4 py-2.5 text-sm font-semibold shadow-xs",
+            "hover:bg-primary/90 transition-colors disabled:cursor-not-allowed disabled:opacity-60",
           )}
         >
           {isSubmitting ? "Sending link..." : "Log in"}

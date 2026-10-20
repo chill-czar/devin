@@ -39,7 +39,7 @@ export function DismissChecklistModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="dismiss-checklist-title"
-        className="w-full max-w-[400px] rounded-xl border border-[#333] bg-[#1e1e1e] p-5 shadow-2xl"
+        className="border-border bg-card text-card-foreground w-full max-w-[400px] rounded-none border p-5 shadow-2xl"
         initial={{ opacity: 0, scale: 0.94, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 10 }}
@@ -48,11 +48,11 @@ export function DismissChecklistModal({
       >
         <h3
           id="dismiss-checklist-title"
-          className="text-[16px] font-semibold text-white"
+          className="text-foreground font-heading text-[16px] font-semibold"
         >
           Dismiss checklist?
         </h3>
-        <p className="mt-2 text-[14px] leading-relaxed text-gray-400">
+        <p className="text-muted-foreground mt-2 text-[14px] leading-relaxed">
           This will hide the onboarding checklist. You can bring it back from
           your account settings.
         </p>
@@ -61,7 +61,7 @@ export function DismissChecklistModal({
           <MotionButton
             type="button"
             onClick={onCancel}
-            className="cursor-pointer rounded-md px-3 py-1.5 text-[14px] text-gray-400 transition-colors hover:text-white"
+            className="text-muted-foreground hover:text-foreground hover:bg-muted cursor-pointer rounded-none px-3 py-1.5 text-[14px] transition-colors"
           >
             Cancel
           </MotionButton>
@@ -69,7 +69,7 @@ export function DismissChecklistModal({
             type="button"
             pressStyle="primary"
             onClick={onDismiss}
-            className="cursor-pointer rounded-md bg-[#4a90e2] px-4 py-1.5 text-[14px] font-medium text-white transition-colors hover:bg-[#3d7ec8]"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer rounded-none px-4 py-1.5 text-[14px] font-medium transition-colors"
           >
             Dismiss
           </MotionButton>

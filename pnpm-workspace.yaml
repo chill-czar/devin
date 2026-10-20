@@ -1,0 +1,8 @@
+packages:
+  - 'apps/*'
+  - 'apps/brain/src/harness'
+  - 'packages/*'
+  - 'packages/api/*'
+  - 'packages/services/*'
+  - 'tooling/*'
+  - 'tests/*'

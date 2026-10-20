@@ -9,10 +9,10 @@ import { UseCasesSection } from "@/components/use-cases-section";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="bg-background text-foreground min-h-screen">
       <Header />
       <Hero />
-      <div className="font-[family-name:var(--font-inter)] text-[17px] leading-relaxed sm:text-lg">
+      <div className="text-foreground font-sans text-[17px] leading-relaxed sm:text-lg">
         <CustomersSection />
         <UseCasesSection />
         <CollaborationSection />

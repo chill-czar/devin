@@ -42,15 +42,17 @@ export const ModelTheme = () => {
   return (
     <button
       onClick={SWITCH}
-      className="flex size-4 cursor-pointer items-center justify-center"
+      type="button"
+      aria-label="Toggle theme"
+      className="border-border bg-background text-foreground hover:bg-muted relative flex size-7 cursor-pointer items-center justify-center rounded-none border transition-colors"
     >
       <SunIcon
         size={14}
-        className="absolute inset-0 scale-100 rotate-0 transition-all duration-200 dark:scale-0 dark:rotate-90"
+        className="scale-100 rotate-0 transition-all duration-200 dark:scale-0 dark:rotate-90"
       />
       <MoonIcon
         size={14}
-        className="absolute inset-0 scale-0 rotate-90 transition-all duration-200 dark:scale-100 dark:rotate-0"
+        className="absolute scale-0 rotate-90 transition-all duration-200 dark:scale-100 dark:rotate-0"
       />
     </button>
   );

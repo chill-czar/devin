@@ -93,20 +93,20 @@ export function PromptComposer({
           isLaunching && "pointer-events-none opacity-0",
         )}
       >
-        <div className="flex items-center gap-2.5 text-[22px] font-semibold tracking-tight text-white">
-          <DashboardLogo size={26} className="text-white" />
+        <div className="font-heading text-foreground flex items-center gap-2.5 text-xl font-semibold tracking-tight">
+          <DashboardLogo size={26} className="text-primary" />
           <span>Devin</span>
         </div>
 
-        <div className="flex items-center rounded-full border border-white/10 bg-white/[0.04] p-[3px] text-[12px] backdrop-blur-md">
+        <div className="border-border bg-secondary/60 flex items-center rounded-none border p-0.5 text-xs">
           <button
             type="button"
             onClick={() => setComposerMode("agent")}
             className={cn(
-              "cursor-pointer rounded-full px-3 py-1 transition-colors",
+              "cursor-pointer rounded-none px-3 py-1 transition-colors",
               composerMode === "agent"
-                ? "bg-white/10 font-medium text-white"
-                : "text-zinc-500 hover:text-zinc-300",
+                ? "bg-card text-foreground border-border/50 border font-medium shadow-xs"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             Agent
@@ -115,10 +115,10 @@ export function PromptComposer({
             type="button"
             onClick={() => setComposerMode("ask")}
             className={cn(
-              "cursor-pointer rounded-full px-3 py-1 transition-colors",
+              "cursor-pointer rounded-none px-3 py-1 transition-colors",
               composerMode === "ask"
-                ? "bg-white/10 font-medium text-white"
-                : "text-zinc-500 hover:text-zinc-300",
+                ? "bg-card text-foreground border-border/50 border font-medium shadow-xs"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             Ask
@@ -148,8 +148,8 @@ export function PromptComposer({
           style={{ height: MIN_TEXTAREA_HEIGHT }}
           className={cn(
             "w-full resize-none overflow-y-auto bg-transparent px-4 pt-4 pb-2",
-            "text-[15px] leading-relaxed text-zinc-100 placeholder:text-zinc-500",
-            "selection:bg-white selection:text-[#1c1c1c]",
+            "text-foreground placeholder:text-muted-foreground text-sm leading-relaxed",
+            "selection:bg-primary/20 selection:text-foreground",
             "outline-none disabled:opacity-60",
           )}
         />
@@ -177,7 +177,7 @@ export function PromptComposer({
         className={cn("w-full", isLaunching && "pointer-events-none opacity-0")}
       >
         {error ? (
-          <p className="mt-2 text-center text-[12px] text-red-400">{error}</p>
+          <p className="text-destructive mt-2 text-center text-xs">{error}</p>
         ) : null}
 
         <PromptMetadataBar />

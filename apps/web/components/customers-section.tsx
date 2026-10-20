@@ -11,13 +11,13 @@ const customers = [
 
 export function CustomersSection() {
   return (
-    <section className="border-t border-gray-100 bg-white py-20 sm:py-24">
+    <section className="border-border bg-background text-foreground border-t py-20 sm:py-24">
       <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <p className="text-[15px] font-medium tracking-wide text-gray-500 uppercase">
+          <p className="text-primary text-xs font-semibold tracking-wider uppercase">
             Industry leaders choose to
           </p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+          <h2 className="font-heading text-foreground mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
             Build with Devin
           </h2>
         </div>
@@ -28,7 +28,7 @@ export function CustomersSection() {
               key={name}
               className="flex items-center justify-center text-center"
             >
-              <span className="text-base font-semibold tracking-tight text-gray-400 transition-colors hover:text-gray-600">
+              <span className="text-muted-foreground hover:text-foreground text-sm font-semibold tracking-tight transition-colors">
                 {name}
               </span>
             </div>

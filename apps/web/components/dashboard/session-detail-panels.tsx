@@ -37,30 +37,39 @@ export function CollapsiblePanel({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-xl border border-[#2a2a2a] bg-[#111]",
+        "border-border bg-card text-card-foreground overflow-hidden rounded-none border shadow-xs",
         className,
       )}
     >
-      <button
-        type="button"
-        onClick={() => setExpanded((value) => !value)}
-        className="flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-2.5 text-left transition-colors hover:bg-[#161616]"
-      >
-        <div className="flex min-w-0 items-center gap-2">
+      <div className="hover:bg-muted/40 flex w-full items-center justify-between gap-3 px-4 py-2.5 transition-colors">
+        <button
+          type="button"
+          onClick={() => setExpanded((value) => !value)}
+          className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 text-left"
+        >
           <Icon className={cn("size-4 shrink-0", iconClassName)} />
-          <h2 className="text-[13px] font-medium text-gray-300">{title}</h2>
-        </div>
+          <h2 className="text-foreground font-heading text-[13px] font-medium">
+            {title}
+          </h2>
+        </button>
         <div className="flex shrink-0 items-center gap-2">
           {headerRight}
-          {expanded ? (
-            <ChevronDown className="size-4 text-gray-500" />
-          ) : (
-            <ChevronRight className="size-4 text-gray-500" />
-          )}
+          <button
+            type="button"
+            onClick={() => setExpanded((value) => !value)}
+            className="text-muted-foreground hover:text-foreground cursor-pointer p-0.5"
+            aria-label={expanded ? "Collapse panel" : "Expand panel"}
+          >
+            {expanded ? (
+              <ChevronDown className="size-4" />
+            ) : (
+              <ChevronRight className="size-4" />
+            )}
+          </button>
         </div>
-      </button>
+      </div>
       {expanded ? (
-        <div className="border-t border-[#252525] px-4 py-3">{children}</div>
+        <div className="border-border border-t px-4 py-3">{children}</div>
       ) : null}
     </div>
   );
@@ -124,27 +133,24 @@ export function LiveWorkPanel({
     <CollapsiblePanel
       title="Live Work"
       icon={Terminal}
-      iconClassName="text-indigo-300"
+      iconClassName="text-primary"
       defaultExpanded={defaultExpanded}
-      className="border-indigo-500/30 bg-indigo-500/5"
+      className="border-primary/25 bg-primary/5"
     >
-      <p className="text-[12px] text-indigo-100/80">{summaryText}</p>
+      <p className="text-foreground text-[12px]">{summaryText}</p>
       {stepEvents.length > 0 ? (
         <div className="mt-2 space-y-1">
           {stepEvents.slice(-4).map((event) => (
-            <p key={event.id} className="text-[11px] text-indigo-100/70">
+            <p key={event.id} className="text-muted-foreground text-[11px]">
               • {event.message}
             </p>
           ))}
         </div>
       ) : null}
       {fileEvents.length > 0 ? (
-        <div className="mt-2 space-y-1 rounded-lg border border-indigo-500/20 bg-[#101326] px-3 py-2">
+        <div className="border-border bg-muted/30 mt-2 space-y-1 rounded-none border px-3 py-2">
           {fileEvents.slice(-5).map((event) => (
-            <p
-              key={event.id}
-              className="font-mono text-[11px] text-indigo-100/80"
-            >
+            <p key={event.id} className="text-foreground font-mono text-[11px]">
               {String(event.data?.path ?? "file")} —{" "}
               {String(event.data?.summary ?? event.message)}
             </p>
@@ -152,16 +158,16 @@ export function LiveWorkPanel({
         </div>
       ) : null}
       {agentLogEvents.length > 0 ? (
-        <div className="mt-2 space-y-1 rounded-lg border border-indigo-500/20 bg-[#101326] px-3 py-2">
+        <div className="border-border bg-muted/30 mt-2 space-y-1 rounded-none border px-3 py-2">
           {agentLogEvents.slice(-6).map((event) => (
-            <p key={event.id} className="text-[11px] text-indigo-100/80">
+            <p key={event.id} className="text-foreground text-[11px]">
               • {event.message}
             </p>
           ))}
         </div>
       ) : null}
       {reviewDiff ? (
-        <pre className="mt-2 overflow-x-auto rounded-lg border border-indigo-500/20 bg-[#101326] px-3 py-2 font-mono text-[11px] leading-relaxed text-indigo-100/80">
+        <pre className="border-border bg-muted/30 text-foreground mt-2 overflow-x-auto rounded-none border px-3 py-2 font-mono text-[11px] leading-relaxed">
           {String(reviewDiff)}
         </pre>
       ) : null}
@@ -173,7 +179,7 @@ export function BotCoAuthorNote({ compact = false }: { compact?: boolean }) {
   return (
     <p
       className={cn(
-        "mt-1 flex flex-wrap items-center gap-1.5 text-emerald-400/80",
+        "mt-1 flex flex-wrap items-center gap-1.5 font-medium text-emerald-600 dark:text-emerald-400",
         compact ? "text-[11px]" : "text-[12px]",
       )}
     >
@@ -181,14 +187,14 @@ export function BotCoAuthorNote({ compact = false }: { compact?: boolean }) {
       <img
         src={DEVIN_BOT.avatarUrl}
         alt=""
-        className="size-4 rounded-full border border-[#333]"
+        className="border-border size-4 rounded-full border"
       />
       <span>Co-authored by</span>
       <a
         href={DEVIN_BOT.profileUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-medium text-[#5a9fd4] hover:underline"
+        className="text-primary font-medium hover:underline"
       >
         @{DEVIN_BOT.username}
       </a>
@@ -234,13 +240,13 @@ export function GitHubProgressBanner({
   const repoUrl = `https://github.com/${repository}`;
 
   return (
-    <div className="mb-4 rounded-xl border border-[#2a2a2a] bg-[#111] px-4 py-3">
+    <div className="border-border bg-card text-card-foreground mb-4 rounded-none border px-4 py-3 shadow-xs">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[13px] font-medium text-gray-200">
+          <p className="text-foreground font-heading text-[13px] font-medium">
             GitHub: {repository}
           </p>
-          <p className="mt-0.5 text-[12px] text-gray-500">
+          <p className="text-muted-foreground mt-0.5 text-[12px]">
             {pushOk
               ? `Pushed to ${targetBranch} — commits should be visible on GitHub`
               : failedPush
@@ -250,7 +256,7 @@ export function GitHubProgressBanner({
                   : "Waiting for initial commit and push…"}
           </p>
           {failedBootstrap ? (
-            <p className="mt-1 text-[12px] text-red-400">
+            <p className="text-destructive mt-1 text-[12px]">
               Bootstrap failed — check activity log for details
             </p>
           ) : pushOk ? (
@@ -262,7 +268,7 @@ export function GitHubProgressBanner({
             href={repoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[#333] bg-[#1a1a1a] px-3 py-1.5 text-[12px] text-[#5a9fd4] transition-colors hover:bg-[#222]"
+            className="border-border bg-background text-primary hover:bg-muted inline-flex items-center gap-1.5 rounded-none border px-3 py-1.5 text-[12px] font-medium transition-colors"
           >
             Open repo
             <ExternalLink className="size-3" />
@@ -271,7 +277,7 @@ export function GitHubProgressBanner({
             href={commitsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[#333] bg-[#1a1a1a] px-3 py-1.5 text-[12px] text-emerald-400 transition-colors hover:bg-[#222]"
+            className="border-border bg-background hover:bg-muted inline-flex items-center gap-1.5 rounded-none border px-3 py-1.5 text-[12px] font-medium text-emerald-600 transition-colors dark:text-emerald-400"
           >
             View commits
             <GitCommit className="size-3" />
@@ -290,30 +296,32 @@ export function EventRow({ event }: { event: TaskEvent }) {
   const isRepoCreated = event.type === "git.repo";
 
   return (
-    <div className="rounded-lg px-2 py-2 transition-colors hover:bg-[#1a1a1a]/50">
+    <div className="hover:bg-muted/40 rounded-none px-2 py-2 transition-colors">
       <div className="flex items-start gap-2.5">
         <Icon
           className={cn(
             "mt-0.5 size-3.5 shrink-0",
             eventColor(event.type),
-            event.type === "runtime.waiting" ? "animate-spin" : null,
+            event.type === "runtime.waiting"
+              ? "text-primary animate-spin"
+              : null,
           )}
         />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded bg-[#1f1f1f] px-1.5 py-0.5 text-[10px] tracking-wide text-gray-500 uppercase">
+            <span className="border-border bg-muted text-muted-foreground rounded-none border px-1.5 py-0.5 font-mono text-[10px] tracking-wide uppercase">
               {eventTypeLabel(event.type)}
             </span>
-            <p className="text-[13px] text-gray-300">{event.message}</p>
+            <p className="text-foreground text-[13px]">{event.message}</p>
           </div>
-          <div className="mt-0.5 flex flex-wrap items-center gap-2 text-[11px] text-gray-600">
+          <div className="text-muted-foreground mt-0.5 flex flex-wrap items-center gap-2 text-[11px]">
             <span>{new Date(event.timestamp).toLocaleTimeString()}</span>
             {event.data?.prUrl ? (
               <a
                 href={String(event.data.prUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#5a9fd4] hover:underline"
+                className="text-primary font-medium hover:underline"
               >
                 Open PR
               </a>
@@ -323,13 +331,13 @@ export function EventRow({ event }: { event: TaskEvent }) {
                 href={String(event.data.htmlUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#5a9fd4] hover:underline"
+                className="text-primary font-medium hover:underline"
               >
                 {isRepoCreated ? "Open repo" : "View"}
               </a>
             ) : null}
             {event.type === "git.push" && event.data?.branch ? (
-              <span className="text-emerald-400/80">
+              <span className="font-mono text-emerald-600 dark:text-emerald-400">
                 branch {String(event.data.branch)}
               </span>
             ) : null}
@@ -337,7 +345,7 @@ export function EventRow({ event }: { event: TaskEvent }) {
               <button
                 type="button"
                 onClick={() => setExpanded((value) => !value)}
-                className="inline-flex cursor-pointer items-center gap-0.5 text-gray-500 hover:text-gray-300"
+                className="text-muted-foreground hover:text-foreground inline-flex cursor-pointer items-center gap-0.5"
               >
                 {expanded ? (
                   <ChevronDown className="size-3" />
@@ -353,7 +361,7 @@ export function EventRow({ event }: { event: TaskEvent }) {
             <BotCoAuthorNote />
           ) : null}
           {expanded && hasDetails ? (
-            <pre className="mt-2 overflow-x-auto rounded-md bg-[#0d0d0d] px-2.5 py-2 font-mono text-[11px] leading-relaxed text-gray-400">
+            <pre className="border-border bg-background text-muted-foreground mt-2 overflow-x-auto rounded-none border px-2.5 py-2 font-mono text-[11px] leading-relaxed">
               {details.join("\n")}
             </pre>
           ) : null}

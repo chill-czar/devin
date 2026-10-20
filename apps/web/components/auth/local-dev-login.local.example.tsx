@@ -65,8 +65,8 @@ export function LocalDevLoginSlot({
         disabled={disabled || isLocalSubmitting}
         onClick={() => void handleLocalDevLogin()}
         className={cn(
-          "flex w-full cursor-pointer items-center justify-center rounded-md border border-emerald-500/30",
-          "bg-emerald-500/10 px-4 py-3 text-[15px] font-medium text-emerald-100",
+          "flex w-full cursor-pointer items-center justify-center rounded-none border border-emerald-500/30",
+          "bg-emerald-500/10 px-4 py-3 text-[15px] font-medium text-emerald-700 dark:text-emerald-300",
           "transition-colors hover:bg-emerald-500/15 disabled:cursor-not-allowed disabled:opacity-60",
         )}
       >

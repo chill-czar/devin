@@ -6,10 +6,10 @@
  */
 
 const INSTRUCTIONISH =
-  /\b(ignore|disregard|forget)\b[\s\S]{0,40}\b(previous|above|system|all)\b[\s\S]{0,40}\b(instructions?|prompts?|rules?)\b|\b(system\s*prompt|developer\s*message|jailbreak|do\s+anything\s+now)\b|\b(exfiltrate|exfiltration)\b|\b(printenv|export)\s+(GITHUB_TOKEN|OPENAI_API_KEY|AWS_SECRET|ANTHROPIC_API_KEY)\b/i;
+  /\b(ignore|disregard|forget)\b[\s\S]{0,40}\b(previous|above|system|all)\b[\s\S]{0,40}\b(instructions?|prompts?|rules?)\b|\b(system\s*prompt|developer\s*message|jailbreak|do\s+anything\s+now)\b|\b(exfiltrate|exfiltration)\b|\b(printenv|export)\s+(GITHUB_TOKEN|OPENAI_API_KEY|GEMINI_API_KEY|AWS_SECRET|ANTHROPIC_API_KEY)\b/i;
 
 const SECRET_SHELL =
-  /\b(printenv|env)\b[\s\S]{0,80}\b(GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|AWS_SECRET_ACCESS_KEY|AWS_SESSION_TOKEN|BETTER_AUTH_SECRET|DATABASE_URL|CURSOR_API_KEY)\b|\becho\s+["']?\$\{?(GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|AWS_SECRET_ACCESS_KEY|BETTER_AUTH_SECRET|DATABASE_URL)\}?|\bcurl\b[\s\S]{0,200}\b(GITHUB_TOKEN|OPENAI_API_KEY|ANTHROPIC_API_KEY|AWS_SECRET)\b/i;
+  /\b(printenv|env)\b[\s\S]{0,80}\b(GITHUB_TOKEN|OPENAI_API_KEY|GEMINI_API_KEY|ANTHROPIC_API_KEY|AWS_SECRET_ACCESS_KEY|AWS_SESSION_TOKEN|BETTER_AUTH_SECRET|DATABASE_URL|CURSOR_API_KEY)\b|\becho\s+["']?\$\{?(GITHUB_TOKEN|OPENAI_API_KEY|GEMINI_API_KEY|ANTHROPIC_API_KEY|AWS_SECRET_ACCESS_KEY|BETTER_AUTH_SECRET|DATABASE_URL)\}?|\bcurl\b[\s\S]{0,200}\b(GITHUB_TOKEN|OPENAI_API_KEY|GEMINI_API_KEY|ANTHROPIC_API_KEY|AWS_SECRET)\b/i;
 
 export const TRUST_POLICY_LINES = [
   "Instruction hierarchy (non-negotiable):",

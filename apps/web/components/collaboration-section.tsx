@@ -34,13 +34,13 @@ const features: Feature[] = [
 
 export function CollaborationSection() {
   return (
-    <section className="bg-white py-24 sm:py-32">
+    <section className="bg-background text-foreground py-24 sm:py-32">
       <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
-          <h2 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+          <h2 className="font-heading text-foreground text-4xl font-semibold tracking-tight sm:text-5xl">
             Learn &amp; work together
           </h2>
-          <p className="mt-5 text-[18px] leading-relaxed text-gray-600">
+          <p className="text-muted-foreground mt-5 text-lg leading-relaxed">
             Devin is built for engineering teams with complex, multi-repo
             projects.
           </p>
@@ -49,28 +49,28 @@ export function CollaborationSection() {
         <div className="mt-16 grid gap-10 lg:grid-cols-3">
           {features.map((feature) => (
             <div key={feature.title} className="group">
-              <div className="overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+              <div className="border-border bg-secondary/40 overflow-hidden rounded-none border">
                 <div className="flex h-56 flex-col justify-end p-6">
-                  <div className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+                  <div className="border-border bg-card rounded-none border p-5 shadow-xs">
                     <div className="flex items-center gap-2.5">
-                      <div className="flex size-7 items-center justify-center rounded bg-blue-500 text-white">
+                      <div className="bg-primary text-primary-foreground flex size-7 items-center justify-center rounded-none">
                         <feature.icon className="size-4" />
                       </div>
-                      <span className="text-[14px] font-medium text-gray-700">
+                      <span className="text-card-foreground text-sm font-medium">
                         {feature.label}
                       </span>
                     </div>
                     <div className="mt-4 space-y-2">
-                      <div className="h-2.5 w-3/4 rounded bg-gray-100" />
-                      <div className="h-2.5 w-1/2 rounded bg-gray-100" />
+                      <div className="bg-muted h-2.5 w-3/4 rounded-none" />
+                      <div className="bg-muted h-2.5 w-1/2 rounded-none" />
                     </div>
                   </div>
                 </div>
               </div>
-              <h3 className="mt-6 text-[18px] font-semibold text-gray-900">
+              <h3 className="font-heading text-foreground mt-6 text-lg font-semibold">
                 {feature.title}
               </h3>
-              <p className="mt-3 text-[16px] leading-relaxed text-gray-600">
+              <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
                 {feature.description}
               </p>
             </div>

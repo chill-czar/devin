@@ -60,16 +60,16 @@ export function ChatLaunchMorphOverlay({
       }}
     >
       <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
-        <div className="flex shrink-0 items-center gap-2 border-b border-white/[0.06] px-3 py-2.5">
-          <div className="h-4 w-4 rounded bg-white/10" />
-          <p className="min-w-0 flex-1 truncate text-[13px] font-medium text-zinc-100">
+        <div className="border-border flex shrink-0 items-center gap-2 border-b px-3 py-2.5">
+          <div className="bg-muted h-4 w-4 rounded-none" />
+          <p className="text-foreground min-w-0 flex-1 truncate text-[13px] font-medium">
             {prompt?.trim() || "New session"}
           </p>
         </div>
         <div className="min-h-0 flex-1 overflow-hidden px-5 py-4">
           {prompt?.trim() ? (
             <div className="flex justify-end">
-              <div className="max-w-[88%] rounded-2xl rounded-tr-md bg-[#1a1a1a] px-3.5 py-2.5 text-[13px] leading-relaxed text-zinc-100">
+              <div className="border-border bg-muted/60 text-foreground max-w-[88%] rounded-none border px-3.5 py-2.5 text-[13px] leading-relaxed">
                 {prompt}
               </div>
             </div>

@@ -68,21 +68,28 @@ export function validateGreenfieldDraftSecrets(
     return;
   }
 
-  if (!process.env.OPENAI_API_KEY?.trim()) {
+  if (
+    !process.env.OPENAI_API_KEY?.trim() &&
+    !process.env.GEMINI_API_KEY?.trim()
+  ) {
     throw new Error(
-      "OPENAI_API_KEY is not set on the scheduler. Add it to AWS SSM as a SecureString at /<env>/platform/openai_api_key, then run sudo devin-infra sync-platform-config on the execution host.",
+      "OPENAI_API_KEY or GEMINI_API_KEY is not set on the scheduler. Add credentials to your environment.",
     );
   }
 }
 
 export function validateAgentSecrets(svc: { mode?: string }, task: Task): void {
-  // Brain harness + OpenAI key live on the Brain control plane, not the worker.
+  // Brain harness + OpenAI/Gemini key live on the Brain control plane, not the worker.
   if (task.agent === "brain" && svc.mode === "worker") {
     return;
   }
-  if (task.agent === "brain" && !process.env.OPENAI_API_KEY?.trim()) {
+  if (
+    task.agent === "brain" &&
+    !process.env.OPENAI_API_KEY?.trim() &&
+    !process.env.GEMINI_API_KEY?.trim()
+  ) {
     throw new Error(
-      "OPENAI_API_KEY is not set for the Brain harness. Add it on the Brain control plane (EKS), not the execution host.",
+      "Neither OPENAI_API_KEY nor GEMINI_API_KEY is set for the Brain harness. Add credentials on the Brain control plane.",
     );
   }
 }

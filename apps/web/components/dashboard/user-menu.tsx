@@ -116,23 +116,23 @@ export function UserMenu({ userName, collapsed = false }: UserMenuProps) {
         data-user-menu-trigger
         onClick={toggleMenu}
         className={cn(
-          "flex cursor-pointer items-center gap-2 rounded-lg px-1.5 py-1.5 text-left transition-colors hover:bg-[#1a1a1a]",
+          "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex cursor-pointer items-center gap-2 rounded-none px-1.5 py-1.5 text-left transition-colors",
           collapsed ? "justify-center" : "min-w-0 flex-1",
-          open && "bg-[#1a1a1a]",
+          open && "bg-sidebar-accent",
         )}
         aria-label={collapsed ? userName : undefined}
       >
-        <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-[#3a3a3a] text-[12px] font-semibold text-white">
+        <span className="bg-primary/15 text-primary border-primary/25 flex size-6 shrink-0 items-center justify-center rounded-none border text-xs font-semibold">
           {getInitial(userName)}
         </span>
         {!collapsed ? (
           <>
-            <span className="min-w-0 flex-1 truncate text-[14px] font-medium text-gray-100">
+            <span className="text-sidebar-foreground min-w-0 flex-1 truncate text-sm font-medium">
               {userName}
             </span>
             <ChevronDown
               className={cn(
-                "size-3.5 shrink-0 text-gray-500 transition-transform duration-200",
+                "text-muted-foreground size-3.5 shrink-0 transition-transform duration-200",
                 open && "rotate-180",
               )}
             />
@@ -146,7 +146,7 @@ export function UserMenu({ userName, collapsed = false }: UserMenuProps) {
               {open && menuPosition ? (
                 <motion.div
                   data-user-menu
-                  className="fixed z-[200] overflow-hidden rounded-xl border border-[#333] bg-[#1e1e1e] shadow-2xl"
+                  className="border-border bg-popover text-popover-foreground fixed z-[200] overflow-hidden rounded-none border shadow-xl"
                   style={{
                     top: menuPosition.top,
                     left: menuPosition.left,
@@ -158,14 +158,14 @@ export function UserMenu({ userName, collapsed = false }: UserMenuProps) {
                   transition={menuTransition}
                 >
                   <div className="flex items-start gap-3 px-4 py-4">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#3a3a3a] text-[15px] font-semibold text-white">
+                    <span className="bg-primary/15 text-primary border-primary/25 flex size-10 shrink-0 items-center justify-center rounded-none border text-sm font-semibold">
                       {getInitial(userName)}
                     </span>
                     <div className="min-w-0 pt-0.5">
-                      <p className="truncate text-[15px] font-semibold text-white">
+                      <p className="text-popover-foreground truncate text-sm font-semibold">
                         {userName}
                       </p>
-                      <p className="mt-0.5 text-[13px] text-gray-500">
+                      <p className="text-muted-foreground mt-0.5 text-xs">
                         Organization • 1 member
                       </p>
                     </div>
@@ -174,36 +174,36 @@ export function UserMenu({ userName, collapsed = false }: UserMenuProps) {
                   <div className="grid grid-cols-2 gap-2 px-3 pb-3">
                     <MotionButton
                       type="button"
-                      className="cursor-pointer rounded-lg bg-[#333] px-3 py-2 text-[13px] font-medium text-white transition-colors hover:bg-[#3d3d3d]"
+                      className="bg-secondary text-secondary-foreground border-border/50 hover:bg-secondary/80 cursor-pointer rounded-none border px-3 py-2 text-xs font-medium transition-colors"
                     >
                       Settings
                     </MotionButton>
                     <MotionButton
                       type="button"
-                      className="cursor-pointer rounded-lg bg-[#333] px-3 py-2 text-[13px] font-medium text-[#5a9fd4] transition-colors hover:bg-[#3d3d3d] hover:text-[#6aa8ef]"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer rounded-none px-3 py-2 text-xs font-medium transition-colors"
                     >
                       Upgrade
                     </MotionButton>
                   </div>
 
-                  <div className="border-t border-[#2a2a2a] py-1">
+                  <div className="border-border border-t py-1">
                     <MotionButton
                       type="button"
-                      className="flex w-full cursor-pointer px-4 py-2.5 text-left text-[14px] text-gray-200 transition-colors hover:bg-[#252525]"
+                      className="text-popover-foreground hover:bg-muted flex w-full cursor-pointer px-4 py-2 text-left text-sm transition-colors"
                     >
                       Create new organization
                     </MotionButton>
                     <div
                       className={cn(
-                        "flex w-full items-center transition-colors hover:bg-[#252525]",
-                        logoutConfirmPending && "bg-[#252525]/60",
+                        "hover:bg-muted flex w-full items-center transition-colors",
+                        logoutConfirmPending && "bg-muted/70",
                       )}
                     >
                       <MotionButton
                         type="button"
                         disabled={isSigningOut}
                         onClick={() => setLogoutConfirmPending(true)}
-                        className="flex flex-1 cursor-pointer px-4 py-2.5 text-left text-[14px] text-gray-200 transition-colors disabled:cursor-not-allowed disabled:opacity-60"
+                        className="text-popover-foreground flex flex-1 cursor-pointer px-4 py-2 text-left text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         {isSigningOut ? "Logging out…" : "Log out"}
                       </MotionButton>
@@ -213,7 +213,7 @@ export function UserMenu({ userName, collapsed = false }: UserMenuProps) {
                             type="button"
                             pressStyle="icon"
                             onClick={() => void handleLogout()}
-                            className="cursor-pointer rounded-md p-1.5 text-red-400 transition-colors hover:bg-red-500/15 hover:text-red-300"
+                            className="text-destructive hover:bg-destructive/15 cursor-pointer rounded-none p-1.5 transition-colors"
                             aria-label="Confirm log out"
                           >
                             <LogOut className="size-4" />
@@ -222,7 +222,7 @@ export function UserMenu({ userName, collapsed = false }: UserMenuProps) {
                             type="button"
                             pressStyle="icon"
                             onClick={() => setLogoutConfirmPending(false)}
-                            className="cursor-pointer rounded-md p-1.5 text-gray-500 transition-colors hover:bg-[#333] hover:text-gray-300"
+                            className="text-muted-foreground hover:bg-muted hover:text-popover-foreground cursor-pointer rounded-none p-1.5 transition-colors"
                             aria-label="Cancel log out"
                           >
                             <X className="size-4" />

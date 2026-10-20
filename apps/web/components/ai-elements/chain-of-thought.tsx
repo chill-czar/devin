@@ -85,7 +85,7 @@ export const ChainOfThoughtHeader = memo(
           )}
           {...props}
         >
-          <BrainIcon className="size-4" />
+          <BrainIcon className="text-primary size-4" />
           <span className="flex-1 text-left">
             {children ?? "Chain of Thought"}
           </span>
@@ -205,7 +205,7 @@ export type ChainOfThoughtImageProps = ComponentProps<"div"> & {
 export const ChainOfThoughtImage = memo(
   ({ className, children, caption, ...props }: ChainOfThoughtImageProps) => (
     <div className={cn("mt-2 space-y-2", className)} {...props}>
-      <div className="bg-muted relative flex max-h-[22rem] items-center justify-center overflow-hidden rounded-lg p-3">
+      <div className="bg-muted border-border relative flex max-h-[22rem] items-center justify-center overflow-hidden rounded-none border p-3">
         {children}
       </div>
       {caption && <p className="text-muted-foreground text-xs">{caption}</p>}

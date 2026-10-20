@@ -31,8 +31,10 @@ export function TabButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "cursor-pointer rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors",
-        active ? "text-zinc-100" : "text-zinc-500 hover:text-zinc-300",
+        "cursor-pointer rounded-none border-b-2 px-3 py-1.5 text-[13px] font-medium transition-colors",
+        active
+          ? "border-primary text-primary font-semibold"
+          : "text-muted-foreground hover:text-foreground border-transparent",
       )}
     >
       {label}
@@ -55,10 +57,10 @@ export function FileTreeRow({
       type="button"
       onClick={onSelect}
       className={cn(
-        "flex w-full cursor-pointer items-center gap-2 rounded-md py-1 pr-1.5 pl-4 text-left transition-colors",
+        "flex w-full cursor-pointer items-center gap-2 rounded-none py-1.5 pr-2 pl-3 text-left transition-colors",
         active
-          ? "bg-white/[0.06] text-zinc-100"
-          : "text-zinc-400 hover:bg-white/[0.03] hover:text-zinc-200",
+          ? "bg-primary/10 text-primary border-primary border-l-2 font-medium"
+          : "text-muted-foreground hover:bg-muted hover:text-foreground",
       )}
     >
       <span className="min-w-0 flex-1 truncate font-mono text-[11px]">
@@ -74,8 +76,8 @@ export function TreeStatusBadge({ changeType }: { changeType: string }) {
   return (
     <span
       className={cn(
-        "shrink-0 text-[10px] font-semibold",
-        added ? "text-emerald-400" : "text-amber-400",
+        "shrink-0 text-[10px] font-bold",
+        added ? "text-emerald-600 dark:text-emerald-400" : "text-primary",
       )}
     >
       {added ? "A" : "M"}
@@ -143,7 +145,7 @@ export function ChangesStackPanel({
   if (files.length === 0) {
     return (
       <div className="flex h-full items-center justify-center px-6">
-        <p className="text-[12px] text-zinc-600">
+        <p className="text-muted-foreground text-[12px]">
           Files appear as the agent edits the repo.
         </p>
       </div>
@@ -151,8 +153,8 @@ export function ChangesStackPanel({
   }
 
   return (
-    <div className="h-full min-h-0 overflow-y-auto bg-[#0d0d0d]">
-      <div className="space-y-0 divide-y divide-white/[0.04]">
+    <div className="bg-background h-full min-h-0 overflow-y-auto">
+      <div className="divide-border space-y-0 divide-y">
         {files.map((file) => {
           const name = fileDisplayName(file.path);
           const pathContext = formatPathContext(file.path);
@@ -185,17 +187,17 @@ export function ChangesStackPanel({
                 blockRefs.current[file.path] = el;
               }}
               className={cn(
-                "bg-[#0d0d0d]",
+                "bg-card text-card-foreground",
                 highlightPath === file.path &&
-                  "ring-1 ring-white/[0.06] ring-inset",
+                  "ring-primary/40 ring-1 ring-inset",
               )}
               onMouseEnter={() => onSelectPath(file.path)}
             >
-              <header className="flex items-center gap-2 border-b border-white/[0.04] bg-[#111111] px-3 py-2">
+              <header className="border-border bg-muted/40 flex items-center gap-2 border-b px-3 py-2">
                 <button
                   type="button"
                   onClick={() => onToggleCollapsed(file.path)}
-                  className="shrink-0 cursor-pointer rounded p-0.5 text-zinc-500 hover:text-zinc-300"
+                  className="text-muted-foreground hover:text-foreground shrink-0 cursor-pointer rounded-none p-0.5"
                   aria-expanded={!collapsed}
                 >
                   {collapsed ? (
@@ -207,12 +209,12 @@ export function ChangesStackPanel({
                 <button
                   type="button"
                   onClick={() => onToggleCollapsed(file.path)}
-                  className="cursor-pointer font-mono text-[13px] font-medium text-zinc-100 hover:text-white"
+                  className="text-foreground hover:text-primary cursor-pointer font-mono text-[13px] font-medium transition-colors"
                 >
                   {name}
                 </button>
                 {pathContext ? (
-                  <span className="truncate text-[12px] text-zinc-500">
+                  <span className="text-muted-foreground truncate text-[12px]">
                     {pathContext}
                   </span>
                 ) : null}
@@ -221,12 +223,12 @@ export function ChangesStackPanel({
                   {stats ? (
                     <>
                       {stats.added > 0 ? (
-                        <span className="font-mono text-[12px] font-medium text-emerald-400 tabular-nums">
+                        <span className="font-mono text-[12px] font-medium text-emerald-600 tabular-nums dark:text-emerald-400">
                           +{stats.added}
                         </span>
                       ) : null}
                       {stats.removed > 0 ? (
-                        <span className="font-mono text-[12px] font-medium text-rose-400 tabular-nums">
+                        <span className="text-destructive font-mono text-[12px] font-medium tabular-nums">
                           -{stats.removed}
                         </span>
                       ) : null}
@@ -235,7 +237,9 @@ export function ChangesStackPanel({
                     <span
                       className={cn(
                         "font-mono text-[12px] font-medium tabular-nums",
-                        isAdded ? "text-emerald-400" : "text-amber-400",
+                        isAdded
+                          ? "text-emerald-600 dark:text-emerald-400"
+                          : "text-primary",
                       )}
                     >
                       +{lineCount}
@@ -244,10 +248,10 @@ export function ChangesStackPanel({
                   {(stats?.added ?? lineCount) > 0 ? (
                     <span
                       className={cn(
-                        "rounded-full border px-2 py-0.5 text-[10px] font-medium",
+                        "rounded-none border px-2 py-0.5 text-[10px] font-medium",
                         isAdded
-                          ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
-                          : "border-amber-500/30 bg-amber-500/10 text-amber-400",
+                          ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                          : "border-primary/30 bg-primary/10 text-primary",
                       )}
                     >
                       {isAdded ? "Added" : "Modified"}
@@ -256,14 +260,14 @@ export function ChangesStackPanel({
                 </div>
               </header>
               {!collapsed ? (
-                <div className="bg-[#0a0a0a]">
+                <div className="bg-background">
                   {loading && content === undefined ? (
-                    <div className="flex items-center gap-2 px-4 py-8 text-[12px] text-zinc-500">
-                      <Loader2 className="size-4 animate-spin" />
+                    <div className="text-muted-foreground flex items-center gap-2 px-4 py-8 text-[12px]">
+                      <Loader2 className="text-primary size-4 animate-spin" />
                       Loading…
                     </div>
                   ) : error ? (
-                    <p className="px-4 py-8 text-[12px] text-zinc-500">
+                    <p className="text-destructive px-4 py-8 text-[12px]">
                       {error}
                     </p>
                   ) : hasDiffView && lines ? (
@@ -275,12 +279,12 @@ export function ChangesStackPanel({
                       changeKind={changeKind}
                     />
                   ) : awaitingDiff ? (
-                    <div className="flex items-center gap-2 px-4 py-3 text-[11px] text-zinc-600">
-                      <Loader2 className="size-3.5 animate-spin" />
+                    <div className="text-muted-foreground flex items-center gap-2 px-4 py-3 text-[11px]">
+                      <Loader2 className="text-primary size-3.5 animate-spin" />
                       Loading diff…
                     </div>
                   ) : (
-                    <p className="px-4 py-8 text-[12px] text-zinc-600">
+                    <p className="text-muted-foreground px-4 py-8 text-[12px]">
                       Waiting for file content…
                     </p>
                   )}
@@ -308,7 +312,7 @@ export function CopyFileButton({ content }: { content: string | undefined }) {
           setTimeout(() => setCopied(false), 1500);
         });
       }}
-      className="rounded p-1 text-zinc-600 transition-colors hover:bg-white/[0.06] hover:text-zinc-300 disabled:opacity-30"
+      className="text-muted-foreground hover:bg-muted hover:text-foreground rounded-none p-1 transition-colors disabled:opacity-30"
       aria-label={copied ? "Copied" : "Copy file"}
     >
       <Copy className="size-3.5" />

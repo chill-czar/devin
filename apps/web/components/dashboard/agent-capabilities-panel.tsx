@@ -53,30 +53,30 @@ function StatusRow({
   const reachable = probe?.reachable ?? false;
 
   return (
-    <div className="rounded-lg border border-[#2a2a2a] bg-[#141414] px-3 py-2.5">
+    <div className="border-border bg-muted/30 rounded-none border px-3 py-2.5">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="text-[13px] text-gray-200">{title}</p>
-          <p className="text-[11px] text-gray-600">{description}</p>
+          <p className="text-foreground text-[13px] font-medium">{title}</p>
+          <p className="text-muted-foreground text-[11px]">{description}</p>
           {probe?.url ? (
-            <p className="mt-1 truncate font-mono text-[10px] text-gray-700">
+            <p className="text-muted-foreground/75 mt-1 truncate font-mono text-[10px]">
               {probe.url}
             </p>
           ) : null}
         </div>
         <span
           className={cn(
-            "shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium",
+            "shrink-0 rounded-none border px-2.5 py-0.5 text-[11px] font-medium",
             reachable
-              ? "bg-emerald-500/10 text-emerald-400"
-              : "bg-red-500/10 text-red-400",
+              ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+              : "bg-destructive/10 text-destructive border-destructive/25",
           )}
         >
           {reachable ? okLabel : failLabel}
         </span>
       </div>
       {probe?.error ? (
-        <p className="mt-2 text-[11px] leading-relaxed text-red-300/90">
+        <p className="text-destructive mt-2 text-[11px] leading-relaxed">
           {probe.error}
         </p>
       ) : null}
@@ -129,7 +129,7 @@ export function AgentCapabilitiesPanel({ onClose }: PlatformStatusPanelProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="platform-status-title"
-        className="w-full max-w-[520px] rounded-xl border border-[#333] bg-[#1e1e1e] p-5 shadow-2xl"
+        className="border-border bg-card text-card-foreground w-full max-w-[520px] rounded-none border p-5 shadow-2xl"
         initial={{ opacity: 0, scale: 0.94, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 10 }}
@@ -138,15 +138,15 @@ export function AgentCapabilitiesPanel({ onClose }: PlatformStatusPanelProps) {
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
-            <Activity className="mt-0.5 size-5 shrink-0 text-[#4a90e2]" />
+            <Activity className="text-primary mt-0.5 size-5 shrink-0" />
             <div>
               <h3
                 id="platform-status-title"
-                className="text-[16px] font-semibold text-white"
+                className="text-foreground font-heading text-[16px] font-semibold"
               >
                 Platform status
               </h3>
-              <p className="mt-1 text-[13px] text-gray-500">
+              <p className="text-muted-foreground mt-1 text-[13px]">
                 Sessions run through the brain control plane. Agent credentials
                 stay on the execution host — never in the browser.
               </p>
@@ -156,7 +156,7 @@ export function AgentCapabilitiesPanel({ onClose }: PlatformStatusPanelProps) {
             type="button"
             pressStyle="icon"
             onClick={onClose}
-            className="cursor-pointer rounded-full p-1 text-gray-500 transition-colors hover:bg-[#2a2a2a] hover:text-gray-300"
+            className="text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer rounded-none p-1 transition-colors"
             aria-label="Close"
           >
             <X className="size-4" />
@@ -164,20 +164,20 @@ export function AgentCapabilitiesPanel({ onClose }: PlatformStatusPanelProps) {
         </div>
 
         {isLoading ? (
-          <div className="mt-5 flex items-center gap-2 text-[13px] text-gray-500">
-            <Loader2 className="size-4 animate-spin" />
+          <div className="text-muted-foreground mt-5 flex items-center gap-2 text-[13px]">
+            <Loader2 className="text-primary size-4 animate-spin" />
             Checking control plane…
           </div>
         ) : (
           <div className="mt-5 space-y-3">
             {platform ? (
-              <div className="rounded-lg border border-[#2a2a2a] bg-[#141414] px-3 py-2.5">
+              <div className="border-border bg-muted/30 rounded-none border px-3 py-2.5">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-[13px] text-gray-200">
+                    <p className="text-foreground text-[13px] font-medium">
                       {serviceModeLabel(platform.serviceMode)}
                     </p>
-                    <p className="text-[11px] text-gray-600">
+                    <p className="text-muted-foreground text-[11px]">
                       Default agent: {platform.defaultAgent}
                       {platform.preferredHost
                         ? ` · host ${platform.preferredHost}`
@@ -186,10 +186,10 @@ export function AgentCapabilitiesPanel({ onClose }: PlatformStatusPanelProps) {
                   </div>
                   <span
                     className={cn(
-                      "rounded-full px-2.5 py-1 text-[11px] font-medium",
+                      "rounded-none border px-2.5 py-0.5 text-[11px] font-medium",
                       platform.durable
-                        ? "bg-emerald-500/10 text-emerald-400"
-                        : "bg-amber-500/10 text-amber-400",
+                        ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                        : "border-amber-500/25 bg-amber-500/10 text-amber-600 dark:text-amber-400",
                     )}
                   >
                     {platform.durable ? "Durable sessions" : "In-memory"}
@@ -216,11 +216,11 @@ export function AgentCapabilitiesPanel({ onClose }: PlatformStatusPanelProps) {
           </div>
         )}
 
-        <div className="mt-5 rounded-lg border border-[#2a2a2a] bg-[#111] p-3">
-          <p className="text-[12px] font-medium text-gray-300">
+        <div className="border-border bg-muted/40 mt-5 rounded-none border p-3">
+          <p className="text-foreground font-heading text-[12px] font-medium">
             How sessions work
           </p>
-          <ol className="mt-2 list-decimal space-y-1.5 pl-4 text-[12px] leading-relaxed text-gray-500">
+          <ol className="text-muted-foreground mt-2 list-decimal space-y-1.5 pl-4 text-[12px] leading-relaxed">
             <li>
               The web UI talks to the API server, which forwards tasks to the
               brain control plane.
@@ -237,14 +237,14 @@ export function AgentCapabilitiesPanel({ onClose }: PlatformStatusPanelProps) {
         </div>
 
         {error ? (
-          <p className="mt-3 text-[12px] text-red-400">{error}</p>
+          <p className="text-destructive mt-3 text-[12px]">{error}</p>
         ) : null}
 
         <div className="mt-5 flex justify-end">
           <MotionButton
             type="button"
             onClick={onClose}
-            className="cursor-pointer rounded-lg border border-[#333] bg-[#1a1a1a] px-4 py-2 text-[13px] text-gray-300 transition-colors hover:bg-[#252525]"
+            className="border-input bg-background text-foreground hover:bg-muted cursor-pointer rounded-none border px-4 py-2 text-[13px] font-medium transition-colors"
           >
             Close
           </MotionButton>

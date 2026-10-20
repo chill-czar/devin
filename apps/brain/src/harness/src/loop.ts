@@ -270,6 +270,7 @@ export async function runBrainHarness(
         role: "assistant",
         content: turn.content,
         tool_calls: turn.toolCalls,
+        ...(turn.extraContent ? { extra_content: turn.extraContent } : {}),
       });
 
       let finished = false;

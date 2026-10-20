@@ -90,11 +90,11 @@ export function SocialAuthButtons({ callbackURL }: SocialAuthButtonsProps) {
             disabled={isDisabled}
             onClick={() => handleSocialSignIn(provider)}
             className={cn(
-              "flex w-full items-center justify-center gap-3 rounded-md border border-[#333]",
-              "bg-[#1e1e1e] px-4 py-3 text-[15px] font-medium text-white",
+              "border-border flex w-full items-center justify-center gap-3 rounded-none border",
+              "bg-card text-card-foreground px-4 py-2.5 text-sm font-medium shadow-xs",
               "transition-colors",
               provider.enabled
-                ? "cursor-pointer hover:bg-[#252525] disabled:cursor-not-allowed disabled:opacity-60"
+                ? "hover:bg-muted cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
                 : "cursor-not-allowed opacity-50",
             )}
           >
@@ -105,7 +105,7 @@ export function SocialAuthButtons({ callbackURL }: SocialAuthButtonsProps) {
       })}
 
       {error ? (
-        <p className="text-center text-[13px] text-red-400">{error}</p>
+        <p className="text-destructive text-center text-xs">{error}</p>
       ) : null}
     </div>
   );

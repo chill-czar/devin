@@ -86,12 +86,12 @@ export function SessionPage({ sessionId }: SessionPageProps) {
         <div
           className={cn(
             workspaceShellClassName,
-            "hidden min-h-0 flex-1 flex-col items-center justify-center text-zinc-300 lg:flex",
+            "text-muted-foreground hidden min-h-0 flex-1 flex-col items-center justify-center lg:flex",
           )}
           role="status"
           aria-label="Loading workspace"
         >
-          <Diamond className="size-10 text-zinc-300" />
+          <Diamond className="text-primary size-10" />
         </div>
       </div>
     );
@@ -100,11 +100,13 @@ export function SessionPage({ sessionId }: SessionPageProps) {
   if (!task || fetchFailed) {
     return (
       <div className="flex min-h-0 w-full max-w-[900px] flex-1 flex-col items-center justify-center gap-3 self-center text-center">
-        <p className="text-[15px] text-gray-300">Session not found</p>
+        <p className="text-foreground text-[15px] font-medium">
+          Session not found
+        </p>
         <button
           type="button"
           onClick={handleBack}
-          className="cursor-pointer text-[14px] text-[#5a9fd4] hover:text-[#6aa8ef]"
+          className="text-primary cursor-pointer text-[14px] font-medium hover:underline"
         >
           Back to composer
         </button>

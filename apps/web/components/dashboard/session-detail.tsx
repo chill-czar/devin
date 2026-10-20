@@ -250,15 +250,15 @@ export function SessionDetail({
     <>
       <SessionPhaseStrip task={task} events={events} />
       {task.status === "failed" ? (
-        <div className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-rose-500/25 bg-rose-500/10 px-3 py-2.5">
-          <p className="text-[12px] text-rose-100">
+        <div className="border-destructive/30 bg-destructive/10 mt-3 flex items-center justify-between gap-3 rounded-none border px-3 py-2.5">
+          <p className="text-destructive text-[12px]">
             {task.message ?? "Task failed — retry or check workspace logs."}
           </p>
           <MotionButton
             type="button"
             onClick={() => void handleRetryTask()}
             disabled={retryingTask}
-            className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-rose-500/20 px-2.5 py-1 text-[11px] text-rose-50 hover:bg-rose-500/30 disabled:opacity-60"
+            className="border-destructive/30 bg-destructive/20 text-destructive hover:bg-destructive/30 inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-none border px-2.5 py-1 text-[11px] font-medium disabled:opacity-60"
           >
             {retryingTask ? <Loader2 className="size-3 animate-spin" /> : null}
             Retry
@@ -267,8 +267,8 @@ export function SessionDetail({
       ) : null}
       {task.sessionSleeping &&
       /Devbox ended — send a follow-up/i.test(task.message ?? "") ? (
-        <div className="mt-3 rounded-xl border border-amber-500/25 bg-amber-500/10 px-3 py-2.5">
-          <p className="text-[12px] text-amber-100">
+        <div className="mt-3 rounded-none border border-amber-500/25 bg-amber-500/10 px-3 py-2.5">
+          <p className="text-foreground text-[12px]">
             {task.message} Your repo and session context stay available for
             follow-ups (up to 30 days).
           </p>
@@ -278,10 +278,10 @@ export function SessionDetail({
         <Confirmation
           approval={{ id: `sandbox-${task.id}` }}
           state="approval-requested"
-          className="mt-3 flex-row items-center justify-between gap-3 border-violet-500/25 bg-violet-500/10 px-3 py-2.5 text-violet-100"
+          className="border-primary/25 bg-primary/10 text-primary mt-3 flex-row items-center justify-between gap-3 rounded-none px-3 py-2.5"
         >
           <ConfirmationRequest>
-            <ConfirmationTitle className="text-[12px] text-violet-100">
+            <ConfirmationTitle className="text-primary text-[12px] font-medium">
               Draft ready — run in devbox
             </ConfirmationTitle>
           </ConfirmationRequest>
@@ -289,7 +289,7 @@ export function SessionDetail({
             <ConfirmationAction
               disabled={startingSandbox}
               onClick={() => void handleStartSandbox()}
-              className="h-auto cursor-pointer gap-1.5 rounded-lg bg-violet-600 px-2.5 py-1 text-[11px] text-white hover:bg-violet-500 disabled:opacity-60"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 h-auto cursor-pointer gap-1.5 rounded-none px-2.5 py-1 text-[11px] font-medium disabled:opacity-60"
             >
               {startingSandbox ? (
                 <Loader2 className="size-3 animate-spin" />
@@ -305,7 +305,7 @@ export function SessionDetail({
             type="button"
             onClick={() => void handleCommitNow()}
             disabled={committingWork || raisingPr}
-            className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-1 text-[11px] text-emerald-100"
+            className="inline-flex cursor-pointer items-center gap-1.5 rounded-none border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-1 text-[11px] font-medium text-emerald-600 hover:bg-emerald-500/25 dark:text-emerald-400"
           >
             Commit
           </MotionButton>
@@ -313,7 +313,7 @@ export function SessionDetail({
             type="button"
             onClick={() => void handleRaisePr()}
             disabled={committingWork || raisingPr}
-            className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-violet-500/30 bg-violet-500/15 px-2.5 py-1 text-[11px] text-violet-100"
+            className="border-primary/30 bg-primary/15 text-primary hover:bg-primary/25 inline-flex cursor-pointer items-center gap-1.5 rounded-none border px-2.5 py-1 text-[11px] font-medium"
           >
             Open PR
           </MotionButton>
@@ -325,14 +325,14 @@ export function SessionDetail({
             type="button"
             onClick={() => void handleTerminateSession()}
             disabled={terminatingSession}
-            className="cursor-pointer text-[11px] text-zinc-500 hover:text-zinc-300"
+            className="text-muted-foreground hover:text-foreground cursor-pointer text-[11px]"
           >
             End session
           </MotionButton>
         </div>
       ) : null}
       {streamError ? (
-        <p className="mt-2 text-[11px] text-rose-400">{streamError}</p>
+        <p className="text-destructive mt-2 text-[11px]">{streamError}</p>
       ) : null}
     </>
   );
@@ -417,13 +417,13 @@ export function SessionDetail({
           {isLaunchMorphing ? (
             <div
               className={cn(
-                "absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#1c1c1c] text-zinc-300 transition-opacity duration-200 ease-out",
+                "bg-card text-muted-foreground absolute inset-0 z-10 flex flex-col items-center justify-center transition-opacity duration-200 ease-out",
                 isLaunchMorphFading && "opacity-0",
               )}
               role="status"
               aria-label="Loading workspace"
             >
-              <Diamond className="size-10 text-zinc-300" />
+              <Diamond className="text-primary size-10" />
             </div>
           ) : null}
         </div>
@@ -431,10 +431,10 @@ export function SessionDetail({
 
       {showDiagnostics && task.status === "failed" ? (
         <details
-          className="absolute right-0 bottom-0 left-0 z-20 mx-3 mb-3 shrink-0 rounded-xl border border-white/[0.08] bg-[#141414]/95 px-4 py-2 backdrop-blur-md"
+          className="border-border bg-card/95 text-card-foreground absolute right-0 bottom-0 left-0 z-20 mx-3 mb-3 shrink-0 rounded-none border px-4 py-2 shadow-lg backdrop-blur-md"
           open
         >
-          <summary className="cursor-pointer text-[11px] text-zinc-500 hover:text-zinc-300">
+          <summary className="text-muted-foreground hover:text-foreground cursor-pointer text-[11px]">
             Diagnostics
           </summary>
           <div className="mt-2 max-h-[200px] overflow-y-auto pb-2">

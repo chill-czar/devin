@@ -49,7 +49,7 @@ export function PromptComposerToolbar({
         <MotionButton
           type="button"
           pressStyle="icon"
-          className="cursor-pointer rounded-md p-1.5 text-zinc-400 transition-colors hover:bg-white/[0.06] hover:text-zinc-200"
+          className="text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer rounded-none p-1.5 transition-colors"
           aria-label="Add"
         >
           <Plus className="size-4" strokeWidth={2} />
@@ -57,7 +57,7 @@ export function PromptComposerToolbar({
         <MotionButton
           type="button"
           pressStyle="icon"
-          className="cursor-pointer rounded-md p-1.5 text-zinc-400 transition-colors hover:bg-white/[0.06] hover:text-zinc-200"
+          className="text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer rounded-none p-1.5 transition-colors"
           aria-label="Attach file"
         >
           <Paperclip className="size-4" strokeWidth={1.75} />
@@ -67,12 +67,12 @@ export function PromptComposerToolbar({
           <MotionButton
             type="button"
             onClick={onToggleAgentMenu}
-            className="flex cursor-pointer items-center gap-1 rounded-md px-1.5 py-1 text-[13px] text-zinc-200 transition-colors hover:bg-white/[0.06]"
+            className="text-foreground hover:bg-muted flex cursor-pointer items-center gap-1 rounded-none px-2 py-1 text-xs transition-colors"
           >
             <span>{selectedAgent.label}</span>
             <ChevronDown
               className={cn(
-                "size-3.5 text-zinc-500 transition-transform",
+                "text-muted-foreground size-3.5 transition-transform",
                 showAgentMenu && "rotate-180",
               )}
             />
@@ -85,7 +85,7 @@ export function PromptComposerToolbar({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -8, scale: 0.96 }}
                 transition={{ duration: 0.15 }}
-                className="absolute bottom-full left-0 z-[100] mb-2 min-w-[180px] overflow-hidden rounded-xl border border-white/[0.08] bg-[#1e1e1e] py-1 shadow-2xl"
+                className="border-border bg-popover text-popover-foreground absolute bottom-full left-0 z-[100] mb-2 min-w-[180px] overflow-hidden rounded-none border py-1 shadow-xl"
               >
                 {agentOptions.map((option) => (
                   <MotionButton
@@ -93,15 +93,17 @@ export function PromptComposerToolbar({
                     type="button"
                     onClick={() => onAgentChange(option.id)}
                     className={cn(
-                      "flex w-full cursor-pointer flex-col px-3 py-2 text-left transition-colors hover:bg-[#252525]",
-                      agent === option.id ? "text-white" : "text-zinc-400",
+                      "hover:bg-muted flex w-full cursor-pointer flex-col px-3 py-2 text-left transition-colors",
+                      agent === option.id
+                        ? "text-primary font-medium"
+                        : "text-muted-foreground",
                     )}
                   >
-                    <span className="flex items-center gap-1.5 text-[13px]">
+                    <span className="flex items-center gap-1.5 text-xs">
                       <Bot className="size-3.5 opacity-60" />
                       {option.label}
                     </span>
-                    <span className="mt-0.5 text-[11px] text-zinc-600">
+                    <span className="text-muted-foreground mt-0.5 text-[11px]">
                       {option.id === "brain"
                         ? brainAgentModelLabel(DEFAULT_BRAIN_AGENT_MODEL)
                         : option.description}
@@ -118,7 +120,7 @@ export function PromptComposerToolbar({
         <MotionButton
           type="button"
           pressStyle="icon"
-          className="cursor-pointer rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-white/[0.06] hover:text-zinc-300"
+          className="text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer rounded-none p-1.5 transition-colors"
           aria-label="Voice input"
         >
           <Mic className="size-4" strokeWidth={1.75} />
@@ -129,10 +131,10 @@ export function PromptComposerToolbar({
           disabled={!canSend}
           onClick={onSubmit}
           className={cn(
-            "flex size-8 cursor-pointer items-center justify-center rounded-full transition-colors disabled:cursor-not-allowed",
+            "flex size-8 cursor-pointer items-center justify-center rounded-none shadow-xs transition-colors disabled:cursor-not-allowed",
             canSend
-              ? "bg-white text-zinc-900 hover:bg-zinc-200"
-              : "bg-[#2a2a2a] text-zinc-600",
+              ? "bg-primary text-primary-foreground hover:bg-primary/90"
+              : "bg-muted text-muted-foreground opacity-40",
           )}
           aria-label="Send prompt"
         >
@@ -146,7 +148,7 @@ export function PromptComposerToolbar({
           type="button"
           pressStyle="icon"
           aria-label="Send options"
-          className="cursor-pointer rounded-md p-1 text-zinc-500 transition-colors hover:bg-white/[0.06] hover:text-zinc-300"
+          className="text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer rounded-none p-1 transition-colors"
         >
           <ChevronDown className="size-3.5" />
         </MotionButton>

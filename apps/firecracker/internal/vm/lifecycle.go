@@ -111,6 +111,11 @@ func (l *Launcher) Restore(ctx context.Context, vmID, name, runtime string, cpu 
 
 	socketPath := filepath.Join(vmDir, "firecracker.sock")
 	logPath := filepath.Join(vmDir, "firecracker.log")
+	consolePath := filepath.Join(vmDir, "console.log")
+	consoleFile, _ := os.OpenFile(consolePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0o644)
+	if consoleFile != nil {
+		defer consoleFile.Close()
+	}
 
 	fcCfg := firecracker.Config{
 		VMID:       vmID,
@@ -145,10 +150,13 @@ func (l *Launcher) Restore(ctx context.Context, vmID, name, runtime string, cpu 
 	}
 
 	vmmCtx, cancel := context.WithCancel(ctx)
-	cmd := firecracker.VMCommandBuilder{}.
+	builder := firecracker.VMCommandBuilder{}.
 		WithBin(l.cfg.FirecrackerBin).
-		WithSocketPath(socketPath).
-		Build(vmmCtx)
+		WithSocketPath(socketPath)
+	if consoleFile != nil {
+		builder = builder.WithStdout(consoleFile).WithStderr(consoleFile)
+	}
+	cmd := builder.Build(vmmCtx)
 
 	machine, err := firecracker.NewMachine(
 		vmmCtx,
@@ -211,6 +219,8 @@ func (l *Launcher) Restore(ctx context.Context, vmID, name, runtime string, cpu 
 		return fail(fmt.Errorf("bring host tap device %q up: %w", tapDevice, linkErr))
 	}
 
+	cnihelper.RefreshGuestNAT()
+
 	ip, err := machineIP(machine)
 	if err != nil {
 		slog.Error("failed to resolve microVM network after snapshot restore",
@@ -244,6 +254,12 @@ func (l *Launcher) Restore(ctx context.Context, vmID, name, runtime string, cpu 
 		"runtimeURL", runtimeURL,
 	)
 	if err := waitForRuntimeHealth(ctx, instance.RuntimeURL, 30*time.Second); err != nil {
+		if consoleData, cErr := os.ReadFile(consolePath); cErr == nil && len(consoleData) > 0 {
+			slog.Error("microVM console on health check failure", "vmId", vmID, "console", string(consoleData))
+		}
+		if fcData, fErr := os.ReadFile(logPath); fErr == nil && len(fcData) > 0 {
+			slog.Error("microVM firecracker log on failure", "vmId", vmID, "log", string(fcData))
+		}
 		_ = instance.Shutdown(context.Background())
 		return nil, fmt.Errorf("runtime health check failed: %w", err)
 	}

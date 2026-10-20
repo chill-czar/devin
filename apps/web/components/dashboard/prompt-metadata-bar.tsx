@@ -75,7 +75,7 @@ function MetadataMenu({
   return createPortal(
     <div
       data-metadata-menu
-      className="fixed z-[200] overflow-hidden rounded-xl border border-[#333] bg-[#1e1e1e] py-1 shadow-2xl"
+      className="border-border bg-popover text-popover-foreground fixed z-[200] overflow-hidden rounded-none border py-1 shadow-lg"
       style={{
         top: position.top,
         left: position.left,
@@ -231,7 +231,7 @@ export function PromptMetadataBar() {
 
   return (
     <>
-      <div className="relative mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[12px] text-gray-500">
+      <div className="text-muted-foreground relative mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[12px]">
         <MotionButton
           ref={repositoryTriggerRef}
           type="button"
@@ -240,7 +240,7 @@ export function PromptMetadataBar() {
           onClick={() =>
             toggleMenu("repositories", repositoryTriggerRef.current)
           }
-          className="flex cursor-pointer items-center gap-1.5 rounded-md px-1 py-0.5 transition-colors hover:bg-[#1a1a1a] hover:text-gray-300 disabled:cursor-not-allowed disabled:opacity-60"
+          className="hover:bg-muted hover:text-foreground flex cursor-pointer items-center gap-1.5 rounded-none px-2 py-0.5 transition-colors disabled:cursor-not-allowed disabled:opacity-60"
         >
           <GitBranch className="size-3.5" />
           {repositoryLabel}
@@ -260,7 +260,7 @@ export function PromptMetadataBar() {
           onClick={() =>
             toggleMenu("environment", environmentTriggerRef.current)
           }
-          className="flex cursor-pointer items-center gap-1.5 rounded-md px-1 py-0.5 transition-colors hover:bg-[#1a1a1a] hover:text-gray-300 disabled:cursor-not-allowed disabled:opacity-60"
+          className="hover:bg-muted hover:text-foreground flex cursor-pointer items-center gap-1.5 rounded-none px-2 py-0.5 transition-colors disabled:cursor-not-allowed disabled:opacity-60"
         >
           {environment}
           <ChevronDown
@@ -273,7 +273,7 @@ export function PromptMetadataBar() {
 
         <MotionButton
           type="button"
-          className="flex cursor-pointer items-center gap-1.5 transition-colors hover:text-gray-400"
+          className="text-primary hover:text-primary/80 flex cursor-pointer items-center gap-1.5 font-medium transition-colors"
         >
           <Sparkles className="size-3" />
           Upgrade plan
@@ -281,7 +281,7 @@ export function PromptMetadataBar() {
         <MotionButton
           type="button"
           onClick={() => setShowAgentCapabilities(true)}
-          className="cursor-pointer transition-colors hover:text-gray-400"
+          className="hover:text-foreground text-muted-foreground cursor-pointer transition-colors"
         >
           Platform status →
         </MotionButton>
@@ -296,7 +296,7 @@ export function PromptMetadataBar() {
       </AnimatePresence>
 
       {error ? (
-        <p className="mt-2 text-center text-[12px] text-red-400">{error}</p>
+        <p className="text-destructive mt-2 text-center text-[12px]">{error}</p>
       ) : null}
 
       <MetadataMenu
@@ -308,16 +308,16 @@ export function PromptMetadataBar() {
         }}
       >
         {!githubConnected ? (
-          <p className="px-3 py-3 text-[13px] text-gray-500">
+          <p className="text-muted-foreground px-3 py-3 text-[13px]">
             Connect GitHub to select a repository
           </p>
         ) : isLoadingRepos ? (
-          <div className="flex items-center gap-2 px-3 py-3 text-[13px] text-gray-500">
-            <Loader2 className="size-4 animate-spin" />
+          <div className="text-muted-foreground flex items-center gap-2 px-3 py-3 text-[13px]">
+            <Loader2 className="text-primary size-4 animate-spin" />
             Loading repositories…
           </div>
         ) : repos.length === 0 ? (
-          <p className="px-3 py-3 text-[13px] text-gray-500">
+          <p className="text-muted-foreground px-3 py-3 text-[13px]">
             No repositories found. Grant repo access in GitHub permissions.
           </p>
         ) : (
@@ -329,15 +329,15 @@ export function PromptMetadataBar() {
                 disabled={isSaving}
                 onClick={() => selectRepository(repo.fullName)}
                 className={cn(
-                  "flex w-full cursor-pointer flex-col px-3 py-2 text-left transition-colors hover:bg-[#252525] disabled:cursor-not-allowed",
+                  "hover:bg-muted flex w-full cursor-pointer flex-col px-3 py-2 text-left transition-colors disabled:cursor-not-allowed",
                   selectedRepository === repo.fullName
-                    ? "text-white"
-                    : "text-gray-400",
+                    ? "text-primary bg-primary/10 font-medium"
+                    : "text-foreground",
                 )}
               >
                 <span className="text-[13px]">{repo.fullName}</span>
                 {repo.description ? (
-                  <span className="truncate text-[11px] text-gray-600">
+                  <span className="text-muted-foreground truncate text-[11px]">
                     {repo.description}
                   </span>
                 ) : null}
@@ -345,12 +345,12 @@ export function PromptMetadataBar() {
             ))}
           </div>
         )}
-        <div className="border-t border-[#2a2a2a] p-2">
+        <div className="border-border border-t p-2">
           <MotionButton
             type="button"
             disabled={isSaving}
             onClick={() => selectRepository(null)}
-            className="w-full cursor-pointer rounded-md px-2 py-1.5 text-left text-[12px] text-gray-500 transition-colors hover:bg-[#252525] hover:text-gray-300 disabled:cursor-not-allowed"
+            className="text-muted-foreground hover:bg-muted hover:text-foreground w-full cursor-pointer rounded-none px-2 py-1.5 text-left text-[12px] transition-colors disabled:cursor-not-allowed"
           >
             Clear selection
           </MotionButton>
@@ -372,15 +372,17 @@ export function PromptMetadataBar() {
             disabled={isSaving}
             onClick={() => persistEnvironment(option)}
             className={cn(
-              "flex w-full cursor-pointer px-3 py-2 text-left text-[13px] transition-colors hover:bg-[#252525] disabled:cursor-not-allowed",
-              environment === option ? "text-white" : "text-gray-400",
+              "hover:bg-muted flex w-full cursor-pointer px-3 py-2 text-left text-[13px] transition-colors disabled:cursor-not-allowed",
+              environment === option
+                ? "text-primary bg-primary/10 font-medium"
+                : "text-foreground",
             )}
           >
             {option}
           </MotionButton>
         ))}
-        <div className="border-t border-[#2a2a2a] p-2">
-          <p className="mb-1.5 px-1 text-[11px] text-gray-500">
+        <div className="border-border border-t p-2">
+          <p className="text-muted-foreground mb-1.5 px-1 text-[11px]">
             Custom environment
           </p>
           <div className="flex gap-2">
@@ -392,7 +394,7 @@ export function PromptMetadataBar() {
                   saveCustomEnvironment();
                 }
               }}
-              className="min-w-0 flex-1 rounded-md border border-[#333] bg-[#141414] px-2 py-1.5 text-[13px] text-white outline-none focus:border-[#555]"
+              className="border-input bg-background text-foreground focus:border-ring focus:ring-ring min-w-0 flex-1 rounded-none border px-2 py-1.5 text-[13px] outline-none focus:ring-1"
               placeholder="e.g. Ubuntu 24.04"
             />
             <MotionButton
@@ -400,7 +402,7 @@ export function PromptMetadataBar() {
               pressStyle="primary"
               disabled={isSaving || !customEnvironment.trim()}
               onClick={saveCustomEnvironment}
-              className="cursor-pointer rounded-md bg-[#333] px-2.5 py-1.5 text-[12px] text-white transition-colors hover:bg-[#444] disabled:cursor-not-allowed disabled:opacity-50"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer rounded-none px-2.5 py-1.5 text-[12px] font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50"
             >
               Save
             </MotionButton>

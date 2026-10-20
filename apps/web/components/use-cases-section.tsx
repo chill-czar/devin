@@ -78,13 +78,13 @@ const useCases: UseCase[] = [
 
 export function UseCasesSection() {
   return (
-    <section className="bg-gray-50 py-24 sm:py-32">
+    <section className="bg-secondary/40 py-24 sm:py-32">
       <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
-          <h2 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+          <h2 className="font-heading text-foreground text-4xl font-semibold tracking-tight sm:text-5xl">
             Use cases
           </h2>
-          <p className="mt-5 text-[18px] leading-relaxed text-gray-600">
+          <p className="text-muted-foreground mt-5 text-lg leading-relaxed">
             Use Devin to plan and execute complex engineering tasks, from code
             migrations to on-call incident resolution.
           </p>
@@ -94,21 +94,21 @@ export function UseCasesSection() {
           {useCases.map((useCase) => (
             <div
               key={useCase.title}
-              className="flex flex-col rounded-xl border border-gray-200 bg-white p-8 transition-shadow hover:shadow-sm"
+              className="border-border bg-card hover:border-primary/50 flex flex-col rounded-none border p-8 shadow-xs transition-colors"
             >
-              <div className="flex size-11 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+              <div className="bg-primary/10 text-primary border-primary/25 flex size-11 items-center justify-center rounded-none border">
                 <useCase.icon className="size-5" />
               </div>
-              <h3 className="mt-5 text-[18px] font-semibold text-gray-900">
+              <h3 className="font-heading text-card-foreground mt-5 text-lg font-semibold">
                 {useCase.title}
               </h3>
               <ul className="mt-4 flex-1 space-y-2.5">
                 {useCase.bullets.map((bullet) => (
                   <li
                     key={bullet}
-                    className="flex gap-2.5 text-[16px] leading-relaxed text-gray-600"
+                    className="text-muted-foreground flex gap-2.5 text-sm leading-relaxed"
                   >
-                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-gray-300" />
+                    <span className="bg-primary/60 mt-2 size-1.5 shrink-0 rounded-full" />
                     {bullet}
                   </li>
                 ))}
@@ -116,7 +116,7 @@ export function UseCasesSection() {
               {useCase.link && (
                 <Link
                   href={useCase.link.href}
-                  className="mt-5 text-[16px] font-medium text-blue-600 transition-colors hover:text-blue-700"
+                  className="text-primary mt-5 text-sm font-medium transition-colors hover:underline"
                 >
                   {useCase.link.label} →
                 </Link>

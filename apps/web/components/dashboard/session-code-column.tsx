@@ -236,7 +236,7 @@ export function SessionCodeColumn({
   return (
     <div className="flex min-h-0 min-w-0 flex-1 bg-transparent lg:min-h-0">
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-        <header className="flex shrink-0 items-center gap-0 border-b border-white/[0.06] px-4 py-2">
+        <header className="border-border bg-card/50 flex shrink-0 items-center gap-0 border-b px-4 py-2">
           <TabButton
             active={workspaceTab === "progress"}
             onClick={() => onWorkspaceTabChange("progress")}
@@ -254,24 +254,24 @@ export function SessionCodeColumn({
           />
           <button
             type="button"
-            className="ml-1 rounded-md p-1.5 text-zinc-600 hover:bg-white/[0.04] hover:text-zinc-400"
+            className="text-muted-foreground hover:bg-muted hover:text-foreground ml-1 rounded-none p-1.5"
             aria-label="New tab"
           >
             <Plus className="size-4" />
           </button>
           {isActive ? (
-            <span className="ml-auto flex items-center gap-1.5 text-[11px] text-zinc-400 tabular-nums">
-              <span className="size-1.5 animate-pulse rounded-full bg-emerald-400" />
+            <span className="text-foreground ml-auto flex items-center gap-1.5 text-[11px] font-medium tabular-nums">
+              <span className="bg-primary size-1.5 animate-pulse rounded-full" />
               Working… {elapsedTime}
             </span>
           ) : (
-            <span className="ml-auto text-[11px] text-zinc-500 tabular-nums">
+            <span className="text-muted-foreground ml-auto text-[11px] tabular-nums">
               Worked {elapsedTime}
             </span>
           )}
         </header>
 
-        <div className="flex min-h-0 flex-1 overflow-hidden bg-[#121212]/55">
+        <div className="bg-background flex min-h-0 flex-1 overflow-hidden">
           <div className="min-h-0 min-w-0 flex-1 overflow-hidden">
             {workspaceTab === "progress" ? (
               <ProgressPanel
@@ -307,19 +307,19 @@ export function SessionCodeColumn({
           </div>
 
           {workspaceTab === "changes" ? (
-            <aside className="flex w-[210px] shrink-0 flex-col border-l border-white/[0.06] bg-[#101010]/70">
-              <div className="shrink-0 border-b border-white/[0.06] p-2.5">
-                <div className="flex items-center gap-1 rounded-lg border border-white/[0.08] bg-[#171717]/90 px-2 py-1.5">
-                  <Search className="size-3.5 shrink-0 text-zinc-600" />
+            <aside className="border-border bg-card/60 flex w-[210px] shrink-0 flex-col border-l">
+              <div className="border-border shrink-0 border-b p-2.5">
+                <div className="border-input bg-background focus-within:border-ring focus-within:ring-ring flex items-center gap-1 rounded-none border px-2 py-1.5 focus-within:ring-1">
+                  <Search className="text-muted-foreground size-3.5 shrink-0" />
                   <input
                     value={fileSearch}
                     onChange={(e) => setFileSearch(e.target.value)}
                     placeholder="Search files..."
-                    className="min-w-0 flex-1 bg-transparent text-[11px] text-zinc-300 outline-none placeholder:text-zinc-600"
+                    className="text-foreground placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent text-[11px] outline-none"
                   />
                   <button
                     type="button"
-                    className="shrink-0 rounded p-0.5 text-zinc-600 hover:text-zinc-400"
+                    className="text-muted-foreground hover:text-foreground shrink-0 rounded-none p-0.5"
                     aria-label="Filter files"
                   >
                     <ListFilter className="size-3.5" />
@@ -328,7 +328,7 @@ export function SessionCodeColumn({
               </div>
               <div className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
                 {changedFiles.length === 0 ? (
-                  <p className="px-1 py-2 text-[11px] text-zinc-600">
+                  <p className="text-muted-foreground px-1 py-2 text-[11px]">
                     Files appear as the agent edits the repo.
                   </p>
                 ) : (
@@ -336,8 +336,8 @@ export function SessionCodeColumn({
                     {filteredGroups.map((group) => (
                       <div key={group.folder || "root"}>
                         <div className="mb-1 flex items-center gap-1.5 px-1 py-0.5">
-                          <Folder className="size-3 text-zinc-600" />
-                          <p className="truncate font-mono text-[11px] text-zinc-400">
+                          <Folder className="text-muted-foreground size-3" />
+                          <p className="text-muted-foreground truncate font-mono text-[11px]">
                             {group.folder || "project"}
                           </p>
                         </div>

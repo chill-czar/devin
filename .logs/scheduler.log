@@ -1,0 +1,6 @@
+
+> @devin/scheduler-app@ start /home/jimmy/Desktop/DEV/resume/devin/apps/scheduler
+> npx tsx src/bin.ts
+
+worker listening @ http://0.0.0.0:9091
+orchestrator: http://localhost:9090

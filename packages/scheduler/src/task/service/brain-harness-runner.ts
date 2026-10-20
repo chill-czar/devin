@@ -204,7 +204,12 @@ export async function runBrainHarnessOnBrain(
       maxWaitMs: resolveAgentMaxWaitMs({
         followUp: job.resumeSession === true,
       }),
-      model: resolveBrainAgentModel(job.agentModel, process.env.OPENAI_MODEL),
+      model: resolveBrainAgentModel(
+        job.agentModel,
+        process.env.OPENAI_MODEL ||
+          process.env.GEMINI_MODEL ||
+          (process.env.GEMINI_API_KEY ? "gemini-3.8-flash" : undefined),
+      ),
       executionWorkerUrl: workerUrl,
       onEvent: (event) => {
         emit(svc, event.type, task.id, event.message, event.data);

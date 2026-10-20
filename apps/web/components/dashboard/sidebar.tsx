@@ -100,7 +100,7 @@ export function Sidebar({ userName }: SidebarProps) {
         width: collapsed ? SIDEBAR_COLLAPSED_WIDTH : SIDEBAR_EXPANDED_WIDTH,
       }}
       transition={hydrated ? sidebarSpring : { duration: 0 }}
-      className="relative flex h-full shrink-0 flex-col overflow-hidden border-r border-[#252525] bg-[#111111]"
+      className="border-sidebar-border bg-sidebar text-sidebar-foreground relative flex h-full shrink-0 flex-col overflow-hidden border-r"
     >
       <div
         className={cn(
@@ -128,7 +128,7 @@ export function Sidebar({ userName }: SidebarProps) {
                 <MotionButton
                   type="button"
                   pressStyle="icon"
-                  className="cursor-pointer rounded-md p-1.5 text-gray-500 transition-colors hover:bg-[#1a1a1a] hover:text-gray-200"
+                  className="text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer rounded-none p-1.5 transition-colors"
                   aria-label="Search"
                 >
                   <Search className="size-4" strokeWidth={1.75} />
@@ -140,7 +140,7 @@ export function Sidebar({ userName }: SidebarProps) {
             type="button"
             pressStyle="icon"
             onClick={toggleCollapsed}
-            className="cursor-pointer rounded-md p-1.5 text-gray-500 transition-colors hover:bg-[#1a1a1a] hover:text-gray-200"
+            className="text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer rounded-none p-1.5 transition-colors"
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             aria-expanded={!collapsed}
           >
@@ -166,19 +166,19 @@ export function Sidebar({ userName }: SidebarProps) {
               href={item.href}
               title={collapsed ? item.label : undefined}
               className={cn(
-                "flex w-full cursor-pointer items-center rounded-lg text-[14px] font-medium transition-all duration-200",
+                "flex w-full cursor-pointer items-center rounded-none text-sm font-medium transition-all duration-200",
                 collapsed
                   ? "justify-center px-0 py-2.5"
                   : "gap-2.5 px-2.5 py-2",
                 isActive
-                  ? "bg-[#252525] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
-                  : "text-gray-400 hover:bg-[#1a1a1a] hover:text-gray-100",
+                  ? "bg-primary/10 text-primary border-primary border-l-2 font-semibold"
+                  : "text-sidebar-foreground/75 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
               )}
             >
               <Icon
                 className={cn(
                   "size-[18px] shrink-0 transition-colors duration-200",
-                  isActive ? "text-gray-100" : "text-gray-500",
+                  isActive ? "text-primary" : "text-muted-foreground",
                 )}
                 strokeWidth={1.75}
               />
@@ -213,21 +213,21 @@ export function Sidebar({ userName }: SidebarProps) {
               className="h-full overflow-y-auto px-3"
             >
               <div className="flex items-center justify-between px-1">
-                <span className="text-[13px] font-medium text-gray-500">
+                <span className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
                   Recent
                 </span>
                 <div className="flex items-center">
                   <MotionButton
                     type="button"
                     pressStyle="icon"
-                    className="cursor-pointer rounded-md p-1 text-gray-500 transition-colors hover:bg-[#1a1a1a] hover:text-gray-300"
+                    className="text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer rounded-none p-1 transition-colors"
                     aria-label="Search recent"
                   >
                     <Search className="size-3.5" strokeWidth={1.75} />
                   </MotionButton>
                   <Link
                     href="/s"
-                    className="cursor-pointer rounded-md p-1 text-gray-500 transition-colors hover:bg-[#1a1a1a] hover:text-gray-300"
+                    className="text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer rounded-none p-1 transition-colors"
                     aria-label="Create new"
                   >
                     <Plus className="size-3.5" strokeWidth={1.75} />
@@ -235,7 +235,7 @@ export function Sidebar({ userName }: SidebarProps) {
                   <MotionButton
                     type="button"
                     pressStyle="icon"
-                    className="cursor-pointer rounded-md p-1 text-gray-500 transition-colors hover:bg-[#1a1a1a] hover:text-gray-300"
+                    className="text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer rounded-none p-1 transition-colors"
                     aria-label="More options"
                   >
                     <MoreHorizontal className="size-3.5" strokeWidth={1.75} />
@@ -249,14 +249,16 @@ export function Sidebar({ userName }: SidebarProps) {
                     <MotionButton
                       key={item.id}
                       type="button"
-                      className="flex w-full cursor-pointer items-start gap-2 rounded-md px-1 py-2 text-left transition-colors hover:bg-[#1a1a1a]"
+                      className="hover:bg-sidebar-accent flex w-full cursor-pointer items-start gap-2 rounded-none px-2 py-2 text-left transition-colors"
                     >
-                      <GitPullRequest className="mt-0.5 size-3.5 shrink-0 text-emerald-500" />
+                      <GitPullRequest className="text-primary mt-0.5 size-3.5 shrink-0" />
                       <div className="min-w-0">
-                        <p className="truncate text-[13px] text-gray-300">
+                        <p className="text-sidebar-foreground truncate text-xs font-medium">
                           {item.title}
                         </p>
-                        <p className="text-[11px] text-gray-600">{item.meta}</p>
+                        <p className="text-muted-foreground text-[11px]">
+                          {item.meta}
+                        </p>
                       </div>
                     </MotionButton>
                   ))}
@@ -264,7 +266,7 @@ export function Sidebar({ userName }: SidebarProps) {
               ) : activeNav === "sessions" ? (
                 <div className="mt-2 space-y-0.5">
                   {tasks.length === 0 ? (
-                    <p className="px-1 text-[13px] text-gray-600">
+                    <p className="text-muted-foreground px-1 text-xs">
                       {recentEmptyLabels.sessions}
                     </p>
                   ) : (
@@ -273,16 +275,24 @@ export function Sidebar({ userName }: SidebarProps) {
                         key={task.id}
                         href={`/s/${task.id}`}
                         className={cn(
-                          "flex w-full cursor-pointer items-start gap-2 rounded-md px-1 py-2 text-left transition-colors hover:bg-[#1a1a1a]",
-                          activeSessionId === task.id && "bg-[#1a1a1a]",
+                          "hover:bg-sidebar-accent flex w-full cursor-pointer items-start gap-2 rounded-none px-2 py-2 text-left transition-colors",
+                          activeSessionId === task.id &&
+                            "bg-primary/10 border-primary text-primary border-l-2 font-medium",
                         )}
                       >
-                        <MessageSquare className="mt-0.5 size-3.5 shrink-0 text-gray-500" />
+                        <MessageSquare
+                          className={cn(
+                            "mt-0.5 size-3.5 shrink-0",
+                            activeSessionId === task.id
+                              ? "text-primary"
+                              : "text-muted-foreground",
+                          )}
+                        />
                         <div className="min-w-0">
-                          <p className="truncate text-[13px] text-gray-300">
+                          <p className="truncate text-xs font-medium">
                             {taskSessionLabel(task)}
                           </p>
-                          <p className="text-[11px] text-gray-600">
+                          <p className="text-muted-foreground text-[11px]">
                             {task.repository ?? task.status}
                           </p>
                         </div>
@@ -291,7 +301,7 @@ export function Sidebar({ userName }: SidebarProps) {
                   )}
                 </div>
               ) : (
-                <p className="mt-2.5 px-1 text-[13px] text-gray-600">
+                <p className="text-muted-foreground mt-2.5 px-1 text-xs">
                   {recentEmptyLabels[activeNav]}
                 </p>
               )}
@@ -310,13 +320,16 @@ export function Sidebar({ userName }: SidebarProps) {
           type="button"
           title="Upgrade"
           className={cn(
-            "cursor-pointer items-center rounded-lg text-[14px] font-medium text-[#5a9fd4] transition-colors hover:bg-[#1a1a1a] hover:text-[#6aa8ef]",
+            "text-primary hover:bg-primary/10 hover:text-primary cursor-pointer items-center rounded-none text-sm font-medium transition-colors",
             collapsed
               ? "flex justify-center p-2"
               : "mb-2 flex w-full gap-2 px-2.5 py-2",
           )}
         >
-          <Sparkles className="size-4 shrink-0" strokeWidth={1.75} />
+          <Sparkles
+            className="text-primary size-4 shrink-0"
+            strokeWidth={1.75}
+          />
           <AnimatePresence initial={false}>
             {!collapsed ? (
               <motion.span
@@ -341,7 +354,7 @@ export function Sidebar({ userName }: SidebarProps) {
           <MotionButton
             type="button"
             pressStyle="icon"
-            className="cursor-pointer rounded-lg p-2 text-gray-500 transition-colors hover:bg-[#1a1a1a] hover:text-gray-300"
+            className="text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer rounded-none p-2 transition-colors"
             aria-label="Settings"
           >
             <Settings className="size-4" strokeWidth={1.75} />
@@ -349,7 +362,7 @@ export function Sidebar({ userName }: SidebarProps) {
           <MotionButton
             type="button"
             pressStyle="icon"
-            className="cursor-pointer rounded-lg p-2 text-gray-500 transition-colors hover:bg-[#1a1a1a] hover:text-gray-300"
+            className="text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer rounded-none p-2 transition-colors"
             aria-label="Download"
           >
             <Download className="size-4" strokeWidth={1.75} />
@@ -357,7 +370,7 @@ export function Sidebar({ userName }: SidebarProps) {
           <MotionButton
             type="button"
             pressStyle="icon"
-            className="cursor-pointer rounded-lg p-2 text-gray-500 transition-colors hover:bg-[#1a1a1a] hover:text-gray-300"
+            className="text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground cursor-pointer rounded-none p-2 transition-colors"
             aria-label="Help"
           >
             <HelpCircle className="size-4" strokeWidth={1.75} />

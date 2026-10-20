@@ -93,6 +93,7 @@ func (m *Manager) warmRuntimePool(ctx context.Context, runtime string, queue cha
 		case queue <- instance:
 			m.mu.Lock()
 			m.readyCount++
+			m.warmVMs[instance.ID] = instance
 			m.mu.Unlock()
 			slog.Info("warmed microVM", "runtime", runtime, "vmId", instance.ID, "runtimeURL", instance.RuntimeURL)
 		}
@@ -120,6 +121,7 @@ func (m *Manager) drainWarmPool() {
 			if m.readyCount > 0 {
 				m.readyCount--
 			}
+			delete(m.warmVMs, warm.ID)
 			m.mu.Unlock()
 			drained = append(drained, warm)
 		}
@@ -149,6 +151,15 @@ func drainQueue(queue chan *vm.Instance) []*vm.Instance {
 
 func (m *Manager) launchWarm(ctx context.Context, runtime string) (*vm.Instance, error) {
 	vmID := xid.New().String()
+	m.mu.Lock()
+	m.inFlight[vmID] = struct{}{}
+	m.mu.Unlock()
+	defer func() {
+		m.mu.Lock()
+		delete(m.inFlight, vmID)
+		m.mu.Unlock()
+	}()
+
 	instance, err := m.launcher.Restore(
 		ctx,
 		vmID,
@@ -162,7 +173,11 @@ func (m *Manager) launchWarm(ctx context.Context, runtime string) (*vm.Instance,
 		if cleanErr := cnihelper.PrepareCNIEnvironment(m.cfg.CNIConfDir, m.cfg.CNINetworkName); cleanErr != nil {
 			slog.Warn("failed to prepare cni environment after allocation failure", "error", cleanErr)
 		}
+		m.mu.Lock()
+		delete(m.inFlight, vmID)
 		vmID = xid.New().String()
+		m.inFlight[vmID] = struct{}{}
+		m.mu.Unlock()
 		instance, err = m.launcher.Restore(
 			ctx,
 			vmID,
@@ -183,5 +198,6 @@ func isCNIAllocationError(err error) bool {
 	return strings.Contains(errStr, "failed to allocate") ||
 		strings.Contains(errStr, "not available in range") ||
 		strings.Contains(errStr, "failed to create CNI network") ||
-		strings.Contains(errStr, "file exists")
+		strings.Contains(errStr, "file exists") ||
+		strings.Contains(errStr, "did not become healthy")
 }

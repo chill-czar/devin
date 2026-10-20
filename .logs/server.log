@@ -1,0 +1,21 @@
+
+> @devin/server@ start /home/jimmy/Desktop/DEV/resume/devin/apps/server
+> bun src/bin.ts
+
+[AUTH CONFIG] useSecureCookies: true
+[AUTH CONFIG] crossSubDomainCookieDomain: (disabled)
+[AUTH CONFIG] Expected cookie name: __Secure-better-auth.session_token
+auth config debug:
+  WEB_APP_URL: http://localhost:3000
+  BETTER_AUTH_URL: http://localhost:8080
+  NODE_ENV: production
+auth allowed origins: http://localhost:3000, http://localhost:8080
+auth secure cookies: enabled
+auth cross-subdomain cookies: disabled (WEB_APP_URL or BETTER_AUTH_URL not set, or same host)
+auth base URL: http://localhost:8080/api/v1/auth
+OAuth callback URLs (register in provider consoles): http://localhost:8080/api/v1/auth/callback/{provider}
+connected to database.
+database migrations applied.
+server is live @ http://localhost:8080
+scheduler proxy: http://localhost:9092
+[2m2026-10-20T15:09:30.487Z[0m [33mWARN[0m [1m[Better Auth]:[0m Rate limiting could not determine a client IP and is falling back to a single shared per-path bucket. Ensure your runtime forwards a trusted client IP header and configure `advanced.ipAddress.ipAddressHeaders` if needed.

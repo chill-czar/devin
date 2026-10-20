@@ -113,17 +113,17 @@ export function SessionChatColumn({
 
   return (
     <div className="flex h-full min-h-0 w-full min-w-0 flex-1 flex-col bg-transparent">
-      <header className="flex shrink-0 items-center gap-2 border-b border-white/[0.06] px-3 py-2.5">
+      <header className="border-border flex shrink-0 items-center gap-2 border-b px-3 py-2.5">
         <MotionButton
           type="button"
           pressStyle="icon"
           onClick={onBack}
-          className="cursor-pointer rounded-lg p-2 text-zinc-500 transition-colors hover:bg-white/[0.04] hover:text-zinc-200"
+          className="text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer rounded-none p-1.5 transition-colors"
           aria-label="Back"
         >
           <ArrowLeft className="size-4" />
         </MotionButton>
-        <p className="min-w-0 flex-1 truncate text-[13px] font-medium text-zinc-100">
+        <p className="text-foreground font-heading min-w-0 flex-1 truncate text-[13px] font-medium">
           {taskSessionLabel(task)}
         </p>
         {task.repository ? (
@@ -131,7 +131,7 @@ export function SessionChatColumn({
             href={`https://github.com/${task.repository}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 text-zinc-500 hover:text-zinc-300"
+            className="text-muted-foreground hover:text-foreground shrink-0"
             aria-label="Open repository"
           >
             <GitCommit className="size-4" />
@@ -140,7 +140,7 @@ export function SessionChatColumn({
       </header>
 
       {banner ? (
-        <div className="shrink-0 border-b border-white/[0.06] px-4 py-2">
+        <div className="border-border shrink-0 border-b px-4 py-2">
           {banner}
         </div>
       ) : null}
@@ -153,13 +153,13 @@ export function SessionChatColumn({
                 {message.timestamp ? (
                   <time
                     dateTime={message.timestamp}
-                    className="mr-10 text-[11px] text-zinc-500 tabular-nums"
+                    className="text-muted-foreground mr-10 text-[11px] tabular-nums"
                   >
                     {formatMessageTime(message.timestamp)}
                   </time>
                 ) : null}
                 <div className="flex items-end gap-2">
-                  <div className="max-w-[min(88%,20rem)] rounded-2xl rounded-tr-md bg-[#1a1a1a] px-3.5 py-2.5 text-[13px] leading-relaxed text-zinc-100">
+                  <div className="border-border bg-muted/60 text-foreground max-w-[min(88%,20rem)] rounded-none border px-3.5 py-2.5 text-[13px] leading-relaxed shadow-2xs">
                     {message.content}
                   </div>
                   <UserAvatar />
@@ -174,19 +174,19 @@ export function SessionChatColumn({
         </div>
 
         {isActive && statusLine ? (
-          <p className="mt-4 text-[13px] leading-relaxed text-zinc-400">
+          <p className="text-foreground mt-4 text-[13px] leading-relaxed">
             {statusLine}
           </p>
         ) : null}
 
         <p
           className={cn(
-            "mt-3 flex items-center gap-2 text-[12px] text-zinc-500",
-            isActive && "font-medium text-zinc-400",
+            "text-muted-foreground mt-3 flex items-center gap-2 text-[12px]",
+            isActive && "text-foreground font-medium",
           )}
         >
           {isActive ? (
-            <span className="size-1.5 shrink-0 animate-pulse rounded-full bg-emerald-400" />
+            <span className="bg-primary size-1.5 shrink-0 animate-pulse rounded-full" />
           ) : null}
           {workLabel}
         </p>
@@ -194,7 +194,7 @@ export function SessionChatColumn({
         {systemMessages.map((message) => (
           <p
             key={message.id}
-            className="mt-3 text-center text-[11px] text-zinc-600"
+            className="text-muted-foreground mt-3 text-center text-[11px]"
           >
             {message.content}
           </p>
@@ -202,8 +202,8 @@ export function SessionChatColumn({
       </div>
 
       {canUseDevbox(task) ? (
-        <div className="shrink-0 border-t border-white/[0.06] bg-transparent px-3 pt-3">
-          <div className="overflow-hidden rounded-xl border border-white/10 bg-[#111]/90">
+        <div className="border-border shrink-0 border-t bg-transparent px-3 pt-3">
+          <div className="border-border bg-card overflow-hidden rounded-none border shadow-xs">
             <SessionDesktopPanel
               task={task}
               layout="embed"
@@ -213,9 +213,9 @@ export function SessionChatColumn({
         </div>
       ) : null}
 
-      <div className="shrink-0 border-t border-white/[0.06] bg-transparent p-3">
+      <div className="border-border shrink-0 border-t bg-transparent p-3">
         <form
-          className="rounded-xl border border-white/15 bg-[#1c1c1c]/75 p-2.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_0_0_1px_rgba(255,255,255,0.03)] backdrop-blur-md"
+          className="border-border bg-background focus-within:border-ring focus-within:ring-ring rounded-none border p-2.5 shadow-xs focus-within:ring-1"
           onSubmit={(event) => {
             event.preventDefault();
             if (!composerDisabled && followUpPrompt.trim()) {
@@ -229,7 +229,7 @@ export function SessionChatColumn({
             disabled={composerDisabled || continuingSession}
             rows={1}
             placeholder="Ask Devin to build features, fix bugs, or work on your code"
-            className="w-full resize-none bg-transparent px-2 py-1.5 text-[13px] leading-relaxed text-zinc-100 outline-none placeholder:text-zinc-600 disabled:opacity-50"
+            className="text-foreground placeholder:text-muted-foreground w-full resize-none bg-transparent px-2 py-1.5 text-[13px] leading-relaxed outline-none disabled:opacity-50"
             onKeyDown={(event) => {
               if (event.key === "Enter" && !event.shiftKey) {
                 event.preventDefault();
@@ -243,7 +243,7 @@ export function SessionChatColumn({
             <div className="flex items-center gap-1">
               <button
                 type="button"
-                className="rounded-lg p-1.5 text-zinc-500 hover:bg-white/[0.04] hover:text-zinc-300"
+                className="text-muted-foreground hover:bg-muted hover:text-foreground rounded-none p-1.5 transition-colors"
                 aria-label="Add attachment"
               >
                 <Plus className="size-4" />
@@ -252,7 +252,7 @@ export function SessionChatColumn({
             <div className="flex items-center gap-1">
               <button
                 type="button"
-                className="rounded-lg p-1.5 text-zinc-500 hover:bg-white/[0.04] hover:text-zinc-300"
+                className="text-muted-foreground hover:bg-muted hover:text-foreground rounded-none p-1.5 transition-colors"
                 aria-label="Voice input"
               >
                 <Mic className="size-4" />
@@ -264,7 +264,7 @@ export function SessionChatColumn({
                   continuingSession ||
                   !followUpPrompt.trim()
                 }
-                className="inline-flex cursor-pointer items-center justify-center rounded-full bg-zinc-700 p-2 text-zinc-100 transition-colors hover:bg-zinc-600 disabled:opacity-40"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center rounded-none p-2 transition-colors disabled:opacity-40"
                 aria-label="Send message"
               >
                 {continuingSession ? (
@@ -295,7 +295,7 @@ function formatMessageTime(iso: string) {
 function UserAvatar() {
   return (
     <div
-      className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-orange-600 text-[11px] font-semibold text-white"
+      className="bg-primary text-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-full text-[11px] font-bold shadow-xs"
       aria-hidden
     >
       You
@@ -305,7 +305,7 @@ function UserAvatar() {
 
 function AssistantMarkdown({ content }: { content: string }) {
   return (
-    <div className="text-[13px] leading-relaxed text-zinc-300 [&_a]:text-emerald-400 [&_a]:underline-offset-2 hover:[&_a]:underline [&_code]:rounded [&_code]:bg-white/[0.06] [&_code]:px-1 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[12px] [&_h1]:mb-2 [&_h1]:text-[15px] [&_h1]:font-semibold [&_h1]:text-zinc-100 [&_h2]:mb-1.5 [&_h2]:text-[14px] [&_h2]:font-medium [&_h2]:text-zinc-100 [&_h3]:mb-1 [&_h3]:text-[13px] [&_h3]:font-medium [&_h3]:text-zinc-100 [&_li]:my-0.5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-1.5 [&_strong]:font-semibold [&_strong]:text-zinc-100 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5">
+    <div className="text-foreground/90 [&_a]:text-primary [&_code]:bg-muted [&_code]:border-border [&_h1]:text-foreground [&_h1]:font-heading [&_h2]:text-foreground [&_h2]:font-heading [&_h3]:text-foreground [&_h3]:font-heading [&_strong]:text-foreground text-[13px] leading-relaxed [&_a]:font-medium [&_a]:underline-offset-2 hover:[&_a]:underline [&_code]:rounded-none [&_code]:border [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[12px] [&_h1]:mb-2 [&_h1]:text-[15px] [&_h1]:font-semibold [&_h2]:mb-1.5 [&_h2]:text-[14px] [&_h2]:font-medium [&_h3]:mb-1 [&_h3]:text-[13px] [&_h3]:font-medium [&_li]:my-0.5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-1.5 [&_strong]:font-semibold [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5">
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
     </div>
   );
@@ -338,13 +338,13 @@ export function SessionPhaseStrip({
           <span
             className={cn(
               "text-[10px] font-medium tracking-wide uppercase",
-              step.done ? "text-emerald-400" : "text-zinc-600",
+              step.done ? "text-primary font-medium" : "text-muted-foreground",
             )}
           >
             {step.label}
           </span>
           {index < steps.length - 1 ? (
-            <span className="h-px w-4 bg-white/[0.08]" />
+            <span className="bg-border h-px w-4" />
           ) : null}
         </div>
       ))}

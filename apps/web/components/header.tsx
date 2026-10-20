@@ -27,13 +27,13 @@ export function Header() {
     <header className="sticky top-0 z-50 px-4 pt-3 sm:px-6 lg:px-8">
       <div
         className={cn(
-          "mx-auto flex h-14 max-w-5xl items-center justify-between rounded-full px-4 transition-all duration-300 sm:px-6",
+          "mx-auto flex h-14 max-w-5xl items-center justify-between rounded-none px-4 transition-all duration-300 sm:px-6",
           scrolled
-            ? "bg-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.04)] backdrop-blur-xl backdrop-saturate-150"
+            ? "border-border bg-background/80 border shadow-xs backdrop-blur-md"
             : "bg-transparent",
         )}
       >
-        <Link href="/" className="flex items-center text-gray-900">
+        <Link href="/" className="text-foreground flex items-center">
           <Logo size={26} />
         </Link>
 
@@ -42,7 +42,7 @@ export function Header() {
             <Link
               key={link.label}
               href={link.href}
-              className="text-[15px] font-medium text-gray-600 transition-colors hover:text-gray-900"
+              className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
             >
               {link.label}
             </Link>
@@ -52,15 +52,15 @@ export function Header() {
         <div className="flex items-center gap-3">
           <Link
             href="#"
-            className="hidden text-[15px] font-medium text-gray-600 transition-colors hover:text-gray-900 sm:inline"
+            className="text-muted-foreground hover:text-foreground hidden text-sm font-medium transition-colors sm:inline"
           >
             Contact sales
           </Link>
           <Link
             href="#"
             className={cn(
-              "hidden rounded-full border border-gray-200 bg-white px-4 py-2",
-              "text-[15px] font-medium text-gray-700 transition-colors hover:bg-gray-50 sm:inline",
+              "border-border bg-card hidden rounded-none border px-4 py-2",
+              "text-foreground hover:bg-muted text-sm font-medium shadow-xs transition-colors sm:inline",
             )}
           >
             Download
@@ -68,8 +68,8 @@ export function Header() {
           <Link
             href="/login"
             className={cn(
-              "rounded-full bg-blue-500 px-4 py-2 text-[15px] font-medium text-white",
-              "transition-colors hover:bg-blue-600",
+              "bg-primary text-primary-foreground rounded-none px-4 py-2 text-sm font-medium shadow-xs",
+              "hover:bg-primary/90 transition-colors",
             )}
           >
             Try Devin

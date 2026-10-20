@@ -33,18 +33,18 @@ export function ReviewView() {
       <div className="mb-6 flex items-center gap-3">
         <MotionButton
           type="button"
-          className="flex cursor-pointer items-center gap-2 rounded-lg border border-[#333] bg-[#1a1a1a] px-3 py-1.5 text-[13px] text-gray-300 transition-colors hover:bg-[#222]"
+          className="border-border bg-card text-foreground hover:bg-muted flex cursor-pointer items-center gap-2 rounded-none border px-3 py-1.5 text-[13px] shadow-xs transition-colors"
         >
-          <span className="flex size-5 items-center justify-center rounded-full bg-[#3a3a3a] text-[10px] font-semibold">
+          <span className="bg-primary/15 text-primary border-primary/25 flex size-5 items-center justify-center rounded-full border text-[10px] font-bold">
             R
           </span>
           chill-czar
-          <ChevronDown className="size-3.5 text-gray-500" />
+          <ChevronDown className="text-muted-foreground size-3.5" />
         </MotionButton>
 
         <MotionButton
           type="button"
-          className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-[#333] bg-[#1a1a1a] px-3 py-1.5 text-[13px] text-gray-400 transition-colors hover:bg-[#222]"
+          className="border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground flex cursor-pointer items-center gap-1.5 rounded-none border px-3 py-1.5 text-[13px] shadow-xs transition-colors"
         >
           All repositories
           <ChevronDown className="size-3.5" />
@@ -53,7 +53,7 @@ export function ReviewView() {
         <MotionButton
           type="button"
           pressStyle="icon"
-          className="cursor-pointer rounded-lg p-2 text-gray-500 transition-colors hover:bg-[#1a1a1a] hover:text-gray-300"
+          className="text-muted-foreground hover:bg-muted hover:text-foreground cursor-pointer rounded-none p-1.5 transition-colors"
           aria-label="Refresh"
         >
           <RefreshCw className="size-4" />
@@ -65,36 +65,38 @@ export function ReviewView() {
             value={prUrl}
             onChange={(event) => setPrUrl(event.target.value)}
             placeholder="Paste pull request URL"
-            className="w-full rounded-lg border border-[#333] bg-[#1a1a1a] px-3 py-2 text-[13px] text-white outline-none placeholder:text-gray-500 focus:border-[#444]"
+            className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-ring w-full rounded-none border px-3 py-1.5 text-[13px] outline-none focus:ring-1"
           />
         </div>
       </div>
 
-      <div className="flex items-center gap-2 text-[14px] text-gray-400">
-        <Clock className="size-4" />
+      <div className="text-foreground font-heading flex items-center gap-2 text-[14px] font-medium">
+        <Clock className="text-muted-foreground size-4" />
         <span>Waiting for reviewers</span>
       </div>
 
-      <div className="mt-4 space-y-1">
+      <div className="mt-4 space-y-2">
         {waitingReviews.map((item) => (
           <MotionButton
             key={item.id}
             type="button"
-            className="flex w-full cursor-pointer items-start gap-3 rounded-lg px-2 py-3 text-left transition-colors hover:bg-[#1a1a1a]"
+            className="border-border bg-card hover:bg-muted/50 flex w-full cursor-pointer items-start gap-3 rounded-none border p-3 text-left shadow-xs transition-colors"
           >
-            <GitPullRequest className="mt-0.5 size-4 shrink-0 text-emerald-500" />
+            <GitPullRequest className="text-primary mt-0.5 size-4 shrink-0" />
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
-                <span className="text-[14px] font-medium text-white">
+                <span className="text-foreground text-[14px] font-medium">
                   {item.title}
                 </span>
                 {item.status === "failed" ? (
-                  <X className="size-3.5 text-red-400" />
+                  <X className="text-destructive size-3.5" />
                 ) : (
-                  <Check className="size-3.5 text-emerald-400" />
+                  <Check className="size-3.5 text-emerald-600 dark:text-emerald-400" />
                 )}
               </div>
-              <p className="mt-0.5 text-[12px] text-gray-500">{item.meta}</p>
+              <p className="text-muted-foreground mt-0.5 text-[12px]">
+                {item.meta}
+              </p>
             </div>
           </MotionButton>
         ))}

@@ -110,7 +110,8 @@ func (s *MemoryStore) simulateProvision(ctx context.Context, name string, spec d
 		runtime = s.cfg.DefaultRuntime
 	}
 
-	vm, err := host.NewClient(s.cfg.FirecrackerHostURL).CreateVM(ctx, host.CreateVMRequest{
+	client := host.NewClient(s.cfg.FirecrackerHostURL)
+	vm, err := client.CreateVM(ctx, host.CreateVMRequest{
 		Name:    name,
 		Runtime: runtime,
 		CPU:     spec.CPU,
@@ -121,6 +122,27 @@ func (s *MemoryStore) simulateProvision(ctx context.Context, name string, spec d
 		s.setStatus(name, devinv1.SandboxStatus{
 			Phase:   devinv1.SandboxPhaseFailed,
 			Message: err.Error(),
+		})
+		return
+	}
+
+	// Poll until VM phase is Running so we get the live runtimeURL (http://192.168.127.8:8081).
+	deadline := time.Now().Add(300 * time.Second)
+	for vm.Phase != "Running" && time.Now().Before(deadline) {
+		time.Sleep(500 * time.Millisecond)
+		latest, getErr := client.GetVM(ctx, vm.VMID)
+		if getErr == nil {
+			vm = latest
+		}
+		if vm.Phase == "Failed" {
+			break
+		}
+	}
+
+	if vm.Phase != "Running" {
+		s.setStatus(name, devinv1.SandboxStatus{
+			Phase:   devinv1.SandboxPhaseFailed,
+			Message: "microVM did not reach Running state: " + vm.Message,
 		})
 		return
 	}
@@ -136,7 +158,7 @@ func (s *MemoryStore) simulateProvision(ctx context.Context, name string, spec d
 		Host:        vm.Host,
 		RuntimeURL:  runtimeURL,
 		MachineName: name + "-machine",
-		Message:     "firecracker microVM ready (dry-run)",
+		Message:     "firecracker microVM ready",
 	})
 }
 

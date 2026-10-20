@@ -49,11 +49,17 @@ export type BrainHarnessOptions = {
 export type ChatMessage =
   | { role: "system"; content: string }
   | { role: "user"; content: string }
-  | { role: "assistant"; content: string | null; tool_calls?: ToolCall[] }
+  | {
+      role: "assistant";
+      content: string | null;
+      tool_calls?: ToolCall[];
+      extra_content?: unknown;
+    }
   | { role: "tool"; tool_call_id: string; content: string };
 
 export type ToolCall = {
   id: string;
   type: "function";
   function: { name: string; arguments: string };
+  extra_content?: unknown;
 };

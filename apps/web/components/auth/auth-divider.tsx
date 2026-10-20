@@ -1,11 +1,11 @@
 export function AuthDivider() {
   return (
     <div className="my-6 flex items-center gap-4">
-      <div className="h-px flex-1 bg-[#333]" />
-      <span className="text-[12px] font-medium tracking-wider text-gray-500 uppercase">
+      <div className="bg-border h-px flex-1" />
+      <span className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
         or
       </span>
-      <div className="h-px flex-1 bg-[#333]" />
+      <div className="bg-border h-px flex-1" />
     </div>
   );
 }

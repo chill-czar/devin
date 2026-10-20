@@ -39,10 +39,10 @@ const highlights = [
 
 export function IntegrationsSection() {
   return (
-    <section className="overflow-hidden border-t border-gray-100 bg-gray-50 py-24 sm:py-32">
+    <section className="border-border bg-secondary/30 overflow-hidden border-t py-24 sm:py-32">
       <div className="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+          <h2 className="font-heading text-foreground text-4xl font-semibold tracking-tight sm:text-5xl">
             Able to work with hundreds of tools
           </h2>
         </div>
@@ -52,7 +52,7 @@ export function IntegrationsSection() {
             {[...integrations, ...integrations].map((tool, i) => (
               <span
                 key={`${tool}-${i}`}
-                className="inline-flex shrink-0 items-center rounded-full border border-gray-200 bg-white px-5 py-2.5 text-[15px] font-medium text-gray-600"
+                className="border-border bg-card text-muted-foreground inline-flex shrink-0 items-center rounded-none border px-4 py-2 text-sm font-medium shadow-xs"
               >
                 {tool}
               </span>
@@ -64,12 +64,12 @@ export function IntegrationsSection() {
           {highlights.map((item) => (
             <div
               key={item.name}
-              className="rounded-xl border border-gray-200 bg-white p-8"
+              className="border-border bg-card rounded-none border p-8 shadow-xs"
             >
-              <h3 className="text-[18px] font-semibold text-gray-900">
+              <h3 className="font-heading text-card-foreground text-lg font-semibold">
                 {item.name}
               </h3>
-              <p className="mt-3 text-[16px] leading-relaxed text-gray-600">
+              <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
                 {item.description}
               </p>
             </div>

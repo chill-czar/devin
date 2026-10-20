@@ -13,7 +13,7 @@ export function LoadingScreen({
   return (
     <div
       className={cn(
-        "flex min-h-screen items-center justify-center bg-[#0d0d0d]",
+        "bg-background text-foreground flex min-h-screen items-center justify-center",
         className,
       )}
       role="status"

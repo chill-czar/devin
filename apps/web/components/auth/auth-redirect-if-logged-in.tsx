@@ -40,7 +40,7 @@ export function AuthRedirectIfLoggedIn({ children }: { children: ReactNode }) {
   }, [isPending, minDurationElapsed, router, session]);
 
   if (isPending || !minDurationElapsed || session) {
-    return <LoadingScreen className="bg-[#121212]" />;
+    return <LoadingScreen className="bg-background" />;
   }
 
   return children;

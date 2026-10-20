@@ -53,6 +53,17 @@ export async function generateDraftPlan(
     }
   }
 
+  const geminiKey = process.env.GEMINI_API_KEY?.trim();
+  if (geminiKey) {
+    try {
+      const plan = await generateDraftPlanWithGemini(geminiKey, ctx);
+      await emitPlanProgress(plan, callbacks);
+      return plan;
+    } catch {
+      // try next provider
+    }
+  }
+
   const anthropicKey = process.env.ANTHROPIC_API_KEY?.trim();
   if (anthropicKey) {
     try {
@@ -137,6 +148,54 @@ async function generateDraftPlanWithOpenAI(
   const text = payload.choices?.[0]?.message?.content;
   if (!text?.trim()) {
     throw new Error("OpenAI planner returned empty content");
+  }
+
+  const parsed = JSON.parse(extractJson(text)) as Partial<DraftPlan>;
+  return normalizeDraftPlan(parsed);
+}
+
+async function generateDraftPlanWithGemini(
+  apiKey: string,
+  ctx: DraftPlannerContext,
+): Promise<DraftPlan> {
+  const model =
+    process.env.DRAFT_PLANNER_GEMINI_MODEL?.trim() ||
+    process.env.GEMINI_MODEL?.trim() ||
+    "gemini-3.8-flash";
+  const baseUrl =
+    process.env.GEMINI_BASE_URL?.trim() ||
+    "https://generativelanguage.googleapis.com/v1beta/openai/";
+  const url = `${baseUrl.replace(/\/+$/, "")}/chat/completions`;
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model,
+      temperature: 0.2,
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: PLANNER_SYSTEM_PROMPT },
+        { role: "user", content: buildPlannerUserPrompt(ctx) },
+      ],
+    }),
+    signal: AbortSignal.timeout(90_000),
+  });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`Gemini planner error ${response.status}: ${body}`);
+  }
+
+  const payload = (await response.json()) as {
+    choices?: Array<{ message?: { content?: string } }>;
+  };
+  const text = payload.choices?.[0]?.message?.content;
+  if (!text?.trim()) {
+    throw new Error("Gemini planner returned empty content");
   }
 
   const parsed = JSON.parse(extractJson(text)) as Partial<DraftPlan>;

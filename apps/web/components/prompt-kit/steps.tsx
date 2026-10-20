@@ -62,7 +62,7 @@ export function StepsTrigger({
     <button
       type="button"
       className={cn(
-        "group flex w-full cursor-pointer items-center justify-start gap-2 py-2 text-left text-[12px] text-zinc-500 transition-colors hover:text-zinc-200",
+        "group text-muted-foreground hover:text-foreground flex w-full cursor-pointer items-center justify-start gap-2 py-2 text-left text-[12px] transition-colors",
         className,
       )}
       {...props}
@@ -82,7 +82,7 @@ export function StepsTrigger({
           ) : null}
         </span>
       ) : (
-        <ChevronDown className="size-3.5 shrink-0 text-zinc-600 transition-transform group-data-[state=open]:rotate-180" />
+        <ChevronDown className="text-muted-foreground size-3.5 shrink-0 transition-transform group-data-[state=open]:rotate-180" />
       )}
       <span className="min-w-0 flex-1">{children}</span>
     </button>
@@ -102,7 +102,7 @@ export function StepsContent({
   return (
     <div className={cn("flex gap-3 pb-2 pl-1", className)} {...props}>
       {bar ?? <StepsBar />}
-      <div className="min-w-0 flex-1 text-[12px] leading-relaxed text-zinc-400">
+      <div className="text-muted-foreground min-w-0 flex-1 text-[12px] leading-relaxed">
         {children}
       </div>
     </div>
@@ -114,7 +114,7 @@ export type StepsBarProps = ComponentProps<"div">;
 export function StepsBar({ className, ...props }: StepsBarProps) {
   return (
     <div
-      className={cn("mt-1 h-auto w-[2px] shrink-0 bg-white/[0.08]", className)}
+      className={cn("bg-border mt-1 h-auto w-[2px] shrink-0", className)}
       aria-hidden
       {...props}
     />

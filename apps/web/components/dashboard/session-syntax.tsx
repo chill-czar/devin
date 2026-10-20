@@ -126,13 +126,13 @@ export function SessionCodeBlock({
 }) {
   const lines = content.split("\n");
   const lang = langFromPath(path);
-  const addedBg = "bg-[#1a2f1a]/80";
-  const modifiedBg = "bg-[#2a2418]/80";
+  const addedBg = "bg-emerald-500/10";
+  const modifiedBg = "bg-amber-500/10";
 
   return (
     <pre
       className={cn(
-        "overflow-x-auto py-1 font-mono text-[12px] leading-[1.6] text-[#d4d4d4]",
+        "text-foreground overflow-x-auto py-1 font-mono text-[12px] leading-[1.6]",
         className,
       )}
     >
@@ -150,8 +150,8 @@ export function SessionCodeBlock({
               className={cn(
                 "w-12 shrink-0 pr-3 text-right tabular-nums select-none",
                 changeKind === "added"
-                  ? "text-emerald-600/70"
-                  : "text-zinc-600",
+                  ? "font-medium text-emerald-600 dark:text-emerald-400"
+                  : "text-muted-foreground/60",
               )}
             >
               {index + 1}
@@ -180,7 +180,7 @@ export function SessionDiffView({
   return (
     <pre
       className={cn(
-        "overflow-x-auto py-1 font-mono text-[12px] leading-[1.6] text-[#d4d4d4]",
+        "text-foreground overflow-x-auto py-1 font-mono text-[12px] leading-[1.6]",
         className,
       )}
     >
@@ -190,7 +190,7 @@ export function SessionDiffView({
             return (
               <div
                 key={`hunk-${index}`}
-                className="bg-white/[0.03] px-3 py-1 text-[11px] text-zinc-500"
+                className="bg-muted/40 text-muted-foreground px-3 py-1 font-mono text-[11px]"
               >
                 {line.text}
               </div>
@@ -203,9 +203,9 @@ export function SessionDiffView({
           const isAdd = line.kind === "add";
           const isRemove = line.kind === "remove";
           const bg = isAdd
-            ? "bg-[#1a3d1a]/90"
+            ? "bg-emerald-500/10"
             : isRemove
-              ? "bg-[#3d1a1a]/90"
+              ? "bg-destructive/10"
               : "";
 
           return (
@@ -216,7 +216,9 @@ export function SessionDiffView({
               <span
                 className={cn(
                   "w-10 shrink-0 pr-2 text-right tabular-nums select-none",
-                  isRemove ? "text-rose-500/60" : "text-zinc-600",
+                  isRemove
+                    ? "text-destructive font-medium"
+                    : "text-muted-foreground/60",
                 )}
               >
                 {line.oldLineNo ?? ""}
@@ -224,7 +226,9 @@ export function SessionDiffView({
               <span
                 className={cn(
                   "w-10 shrink-0 pr-3 text-right tabular-nums select-none",
-                  isAdd ? "text-emerald-500/70" : "text-zinc-600",
+                  isAdd
+                    ? "font-medium text-emerald-600 dark:text-emerald-400"
+                    : "text-muted-foreground/60",
                 )}
               >
                 {line.newLineNo ?? ""}
@@ -232,13 +236,15 @@ export function SessionDiffView({
               <span
                 className={cn(
                   "min-w-0 flex-1 pr-4 whitespace-pre",
-                  isRemove && "text-rose-200/80",
+                  isRemove && "text-destructive",
                 )}
               >
                 {isRemove ? (
-                  <span className="text-rose-300/50">- </span>
+                  <span className="text-destructive/70 font-bold">- </span>
                 ) : isAdd ? (
-                  <span className="text-emerald-400/50">+ </span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                    +{" "}
+                  </span>
                 ) : null}
                 {highlightLine(line.text, lang)}
               </span>
